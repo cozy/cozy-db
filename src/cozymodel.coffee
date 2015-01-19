@@ -30,7 +30,7 @@ FormData::pipe = (request) ->
 cozyDataAdapter =
 
     exists: (id, callback) ->
-        client.get "data/exist/#{id}/", (error, response, body) =>
+        client.get "data/exist/#{id}/", (error, response, body) ->
             if error
                 callback error
             else if not body? or not body.exist?
@@ -39,7 +39,7 @@ cozyDataAdapter =
                 callback null, body.exist
 
     find: (id, callback) ->
-        client.get "data/#{id}/", (error, response, body) =>
+        client.get "data/#{id}/", (error, response, body) ->
             if error
                 callback error
             else if response.statusCode is 404
@@ -54,7 +54,7 @@ cozyDataAdapter =
             delete attributes.id
             return callback new Error 'cant create an object with a set id'
 
-        client.post path, attributes, (error, response, body) =>
+        client.post path, attributes, (error, response, body) ->
             if error
                 callback error
             else if response.statusCode is 409
@@ -103,7 +103,7 @@ cozyIndexAdapter =
     search: (query, callback) ->
         docType = @getDocType()
         data = query: query
-        client.post "data/search/#{docType}", data, (error, response, body) =>
+        client.post "data/search/#{docType}", data, (error, response, body) ->
             if error
                 callback error
             else if response.statusCode isnt 200
@@ -129,7 +129,7 @@ cozyFileAdapter =
     attach: (id, path, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/attachments/"
-        client.sendFile urlPath, path, data, (error, response, body) =>
+        client.sendFile urlPath, path, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
 
@@ -141,7 +141,7 @@ cozyFileAdapter =
 
     remove: (id, filename, callback) ->
         urlPath = "data/#{id}/attachments/#{filename}"
-        client.del urlPath, (error, response, body) =>
+        client.del urlPath, (error, response, body) ->
             checkError error, response, body, 204, callback
 
 cozyBinaryAdapter =
@@ -149,7 +149,7 @@ cozyBinaryAdapter =
     attach: (id, path, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/binaries/"
-        client.sendFile urlPath, path, data, (error, response, body) =>
+        client.sendFile urlPath, path, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
 
@@ -161,7 +161,7 @@ cozyBinaryAdapter =
 
     remove: (id, filename, callback) ->
         urlPath = "data/#{id}/binaries/#{filename}"
-        client.del urlPath, (error, response, body) =>
+        client.del urlPath, (error, response, body) ->
             checkError error, response, body, 204, callback
 
 cozyRequestsAdapter =
@@ -182,7 +182,7 @@ cozyRequestsAdapter =
             """
 
         path = "request/#{docType}/#{name.toLowerCase()}/"
-        client.put path, view, (error, response, body) =>
+        client.put path, view, (error, response, body) ->
             checkError error, response, body, 200, callback
 
     run: (name, params, callback) ->
@@ -190,7 +190,7 @@ cozyRequestsAdapter =
         docType = @getDocType()
 
         path = "request/#{docType}/#{name.toLowerCase()}/"
-        client.post path, params, (error, response, body) =>
+        client.post path, params, (error, response, body) ->
             if error
                 callback error
             else if response.statusCode isnt 200
@@ -201,7 +201,7 @@ cozyRequestsAdapter =
     remove: (name, callback) ->
         docType = @getDocType()
         path = "request/#{docType}/#{name.toLowerCase()}/"
-        client.del path, (error, response, body) =>
+        client.del path, (error, response, body) ->
             checkError error, response, body, 204, callback
 
     requestDestroy: (name, params, callback) ->
@@ -210,7 +210,7 @@ cozyRequestsAdapter =
         docType = @getDocType()
 
         path = "request/#{docType}/#{name.toLowerCase()}/destroy/"
-        client.put path, params, (error, response, body) =>
+        client.put path, params, (error, response, body) ->
             checkError error, response, body, 204, callback
 
 

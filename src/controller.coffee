@@ -21,7 +21,7 @@ class Controller
     #       reqProp: 'note'
     #       reqParamID: 'noteid'
     constructor: (options) ->
-        @model = options.model or throw 'model needed'
+        @model = options.model or throw new Error 'model needed'
         @reqProp = options.reqProp or @model.getDocType().toLowerCase()
         @reqParamID = options.reqParamID or @reqProp + 'id'
 
@@ -71,7 +71,7 @@ class Controller
     #
     #  app.get '/notes/', baseController.listAll
     listAll: (req, res, next) =>
-        @model.all (err, items) =>
+        @model.all (err, items) ->
             return next err if err
             res.send 200, items
 
@@ -93,7 +93,7 @@ class Controller
     update: (req, res, next) =>
         id = req.params[@reqParamID]
         changes = req.body
-        @model.updateAttributes id, req.body, (err, updated) =>
+        @model.updateAttributes id, req.body, (err, updated) ->
             return next err if err
             res.send 200, updated
             next()
@@ -108,7 +108,7 @@ class Controller
     #  app.del 'note/:noteid', baseController.destroy
     destroy: (req, res, next) =>
         id = req.params[@reqParamID]
-        @model.destroy id, (err) =>
+        @model.destroy id, (err) ->
             return next err if err
             res.send 204, 'Deleted'
             next()

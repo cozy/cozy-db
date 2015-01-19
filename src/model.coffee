@@ -5,13 +5,13 @@ deprecated = ->
         console.log new Error('deprecated').stack
 
 _wrapCallback = (that, changes, callback) ->
-        (err, data) ->
-            return callback err if err
-            if data.success
-                that[key] = value for key, value of changes
-            else
-                that[key] = value for key, value of data
-            callback null, that
+    (err, data) ->
+        return callback err if err
+        if data.success
+            that[key] = value for key, value of changes
+        else
+            that[key] = value for key, value of data
+        callback null, that
 
 
 # Public: the model class

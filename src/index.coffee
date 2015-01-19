@@ -24,9 +24,7 @@ module.exports[key] = value for key, value of api
 
 module.exports.getModel = (name, schema) ->
 
-    generated = {}
-
-    klass = class generated[name] extends CozyModel
+    klass = class ClassFromGetModel extends CozyModel
         @schema: schema
 
     klass.displayName = klass.name = name

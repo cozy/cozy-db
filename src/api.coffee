@@ -124,7 +124,7 @@ class Api
     #
     # Returns null
     sendMail: (data, callback) ->
-        client.post "mail/", data, (error, response, body) =>
+        client.post "mail/", data, (error, response, body) ->
             if body.error
                 callback body.error
             else if response.statusCode is 400
@@ -146,7 +146,7 @@ class Api
     #
     # Returns null
     sendMailToUser: (data, callback) ->
-        client.post "mail/to-user/", data, (error, response, body) =>
+        client.post "mail/to-user/", data, (error, response, body) ->
             if body.error
                 callback body.error
             else if response.statusCode is 400
@@ -168,7 +168,7 @@ class Api
     #
     # Returns null
     sendMailFromUser: (data, callback) ->
-        client.post "mail/from-user/", data, (error, response, body) =>
+        client.post "mail/from-user/", data, (error, response, body) ->
             if body.error?
                 callback body.error
             else if response.statusCode is 400
