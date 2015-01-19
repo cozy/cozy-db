@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>Cozy Models</title>
+  <link rel='stylesheet' href='..&#47;assets/biscotto.css' type='text/css'>
+  <script src='..&#47;assets/biscotto.js'></script>
+  <script src='..&#47;assets/search_data.js'></script>
+</head>
+  <body>
+    <div id='base' data-path='..&#47;'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='..&#47;README.md.html' title='Cozy Models'>Cozy Models</a>
+    &raquo;
+    <a href='..&#47;class_index.html' title='Index'>Index</a>
+    &raquo;
+    <span class='title'>Api</span>
+    <nav>
+      <ul>
+        <li class='noframes'>
+          (<a class='noframes' href='#'>no frames</a>)
+        </li>
+      </ul>
+    </nav>
+    <div id='search'>
+      <a id='class_list_link' href='..&#47;class_list.html'>Classes</a>
+      <a id='method_list_link' href='..&#47;method_list.html'>Methods</a>
+      <a id='extra_list_link' href='..&#47;extra_list.html'>Extras</a>
+    </div>
+  </div>
+  <iframe id='search_frame'></iframe>
+  <div id='fuzzySearch'>
+    <input type='text'>
+    <ol></ol>
+  </div>
+  <div id='help'>
+    <p>
+      Quickly fuzzy find classes, mixins, methods, file:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-T</span>
+        Open fuzzy finder dialog
+      </li>
+    </ul>
+    <p>
+      In frame mode you can toggle the list naviation frame on the left side:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-L</span>
+        Toggle list view
+      </li>
+    </ul>
+    <p>
+      You can focus a list in frame mode or toggle a tab in frameless mode:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-C</span>
+        Class list
+      </li>
+      <li>
+        <span>Ctrl-I</span>
+        Mixin list
+      </li>
+      <li>
+        <span>Ctrl-F</span>
+        File list
+      </li>
+      <li>
+        <span>Ctrl-M</span>
+        Method list
+      </li>
+      <li>
+        <span>Ctrl-E</span>
+        Extras list
+      </li>
+    </ul>
+    <p>
+      You can focus and blur the search input:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-S</span>
+        Focus search input
+      </li>
+      <li>
+        <span>Esc</span>
+        Blur search input
+      </li>
+    </ul>
+    <p>
+      In frameless mode you can close the list tab:
+    </p>
+    <ul>
+      <li>
+        <span>Esc</span>
+        Close list tab
+      </li>
+    </ul>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        Class
+        Api
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>src&#47;api.coffee</td>
+        </tr>
+      </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+   Public: kitchen sink class for various convenience methods
+
+Examples
+  require('cozydb').api.getCozyInstance (err, instance) -> 
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      
+    </h4>
+    <pre><code class='coffee'>require(&#39;cozydb&#39;).api.getCozyInstance (err, instance) -&gt;</code></pre>
+  </div>
+</div>
+<div class='tags'>
+</div>
+      <h2>Instance Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#getCozyDomain-instance'>
+        ::<strong>getCozyDomain</strong>(callback)
+      </a>
+    </span>
+    <span class='desc'>
+      get the Cozy domain Warning : Your app need to ask the CozyInstance permission domain is normalized with https and trailing /
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getCozyInstance-instance'>
+        ::<strong>getCozyInstance</strong>(callback)
+      </a>
+    </span>
+    <span class='desc'>
+      get the CozyInstance object Warning : Your app need to ask the CozyInstance permission
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getCozyLocale-instance'>
+        ::<strong>getCozyLocale</strong>(callback)
+      </a>
+    </span>
+    <span class='desc'>
+      get the Cozy locale Warning : Your app need to ask the CozyInstance permission
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getCozyOwnerEmail-instance'>
+        ::<strong>getCozyOwnerEmail</strong>(callback)
+      </a>
+    </span>
+    <span class='desc'>
+      get the Cozy owner&#39;s email Warning : Your app need to ask the User permission
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getCozyTags-instance'>
+        ::<strong>getCozyTags</strong>(callback)
+      </a>
+    </span>
+    <span class='desc'>
+      get all existing tags in the cozy
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getCozyTimezone-instance'>
+        ::<strong>getCozyTimezone</strong>(callback)
+      </a>
+    </span>
+    <span class='desc'>
+      get the Cozy timezone Warning : Your app need to ask the User permission
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getCozyUser-instance'>
+        ::<strong>getCozyUser</strong>(callback)
+      </a>
+    </span>
+    <span class='desc'>
+      get the CozyUser object Warning : Your app need to ask the User permission
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#sendMail-instance'>
+        ::<strong>sendMail</strong>(data, callback)
+      </a>
+    </span>
+    <span class='desc'>
+      send an email Warning : Your app need to ask the &quot;send mail&quot; permission
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#sendMailFromUser-instance'>
+        ::<strong>sendMailFromUser</strong>(data, callback)
+      </a>
+    </span>
+    <span class='desc'>
+      send an email from the cozy owner Warning : Your app need to ask the &quot;send mail from user&quot; permission
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#sendMailToUser-instance'>
+        ::<strong>sendMailToUser</strong>(data, callback)
+      </a>
+    </span>
+    <span class='desc'>
+      send an email to the cozy owner Warning : Your app need to ask the &quot;send mail to user&quot; permission
+    </span>
+  </li>
+</ul>
+      <h2>Instance Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='getCozyDomain-instance'>
+      ::<strong>getCozyDomain</strong>(callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L45'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: get the Cozy domain
+Warning : Your app need to ask the CozyInstance permission
+domain is normalized with https and trailing /
+
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> domain)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> domain)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getCozyInstance-instance'>
+      ::<strong>getCozyInstance</strong>(callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L26'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: get the CozyInstance object
+Warning : Your app need to ask the CozyInstance permission
+
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/CozyInstance.html'>CozyInstance</a> instance)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/CozyInstance.html'>CozyInstance</a> instance)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getCozyLocale-instance'>
+      ::<strong>getCozyLocale</strong>(callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L60'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: get the Cozy locale
+Warning : Your app need to ask the CozyInstance permission
+
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> locale)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> locale)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getCozyOwnerEmail-instance'>
+      ::<strong>getCozyOwnerEmail</strong>(callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L84'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: get the Cozy owner's email
+Warning : Your app need to ask the User permission
+
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> email)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> email)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getCozyTags-instance'>
+      ::<strong>getCozyTags</strong>(callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L97'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: get all existing tags in the cozy
+
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, [<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>] tags)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, [<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>] tags)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getCozyTimezone-instance'>
+      ::<strong>getCozyTimezone</strong>(callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L70'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: get the Cozy timezone
+Warning : Your app need to ask the User permission
+
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> timezone)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> timezone)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getCozyUser-instance'>
+      ::<strong>getCozyUser</strong>(callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L35'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: get the CozyUser object
+Warning : Your app need to ask the User permission
+
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/CozyUser.html'>CozyUser</a> instance)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/CozyUser.html'>CozyUser</a> instance)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='sendMail-instance'>
+      ::<strong>sendMail</strong>(data, callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L109'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: send an email
+Warning : Your app need to ask the "send mail" permission
+
+data - <a href='../classes/EmailOptions.html'>EmailOptions</a>
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(EmailOptions)</span>
+      <span class='name'>data</span>
+      &mdash;
+      <span class='desc'><a href='../classes/EmailOptions.html'>EmailOptions</a></span>
+    </li>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='sendMailFromUser-instance'>
+      ::<strong>sendMailFromUser</strong>(data, callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L145'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: send an email from the cozy owner
+Warning : Your app need to ask the "send mail from user" permission
+
+data - <a href='../classes/EmailOptions.html'>EmailOptions</a>
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(EmailOptions)</span>
+      <span class='name'>data</span>
+      &mdash;
+      <span class='desc'><a href='../classes/EmailOptions.html'>EmailOptions</a></span>
+    </li>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='sendMailToUser-instance'>
+      ::<strong>sendMailToUser</strong>(data, callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L127'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: send an email to the cozy owner
+Warning : Your app need to ask the "send mail to user" permission
+
+data - <a href='../classes/EmailOptions.html'>EmailOptions</a>
+callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
+
+Returns null 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(EmailOptions)</span>
+      <span class='name'>data</span>
+      &mdash;
+      <span class='desc'><a href='../classes/EmailOptions.html'>EmailOptions</a></span>
+    </li>
+    <li>
+      <span class='type'>(Function)</span>
+      <span class='name'>callback</span>
+      &mdash;
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns null</span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  Generated on
+  Mon Jan 19 2015 15:40:33 GMT+0000 (UTC)
+  by
+  <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
+  v2.2.4
+  (Node.js v0.10.26).
+  &#10034;
+  Press Ctrl-h to see the keyboard shortcuts
+</div>
+  </body>
+</html>
