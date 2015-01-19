@@ -1,0 +1,9 @@
+--name       "Cozy Models"
+--readme     README.md
+--title      "Cozy Models"
+--private
+--quiet
+--output-dir doc
+--
+.biscottoclassref.coffee
+src
