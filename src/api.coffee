@@ -103,7 +103,23 @@ class Api
     # Public: send an email
     # Warning : Your app need to ask the "send mail" permission
     #
-    # data - {EmailOptions}
+    # data - {Object}
+    #   :to
+    #   :from
+    #   :subject
+    #   :cc
+    #   :bcc
+    #   :replyTo
+    #   :inReplyTo
+    #   :references
+    #   :headers
+    #   :alternatives
+    #   :envelope
+    #   :messageId
+    #   :date
+    #   :encoding
+    #   :text
+    #   :html
     # callback - {Function}({Error} err)
     #
     # Returns null
@@ -121,7 +137,11 @@ class Api
     # Public: send an email to the cozy owner
     # Warning : Your app need to ask the "send mail to user" permission
     #
-    # data - {EmailOptions}
+    # data - {Object}
+    #   :to
+    #   :subject
+    #   :text
+    #   :html
     # callback - {Function}({Error} err)
     #
     # Returns null
@@ -139,7 +159,11 @@ class Api
     # Public: send an email from the cozy owner
     # Warning : Your app need to ask the "send mail from user" permission
     #
-    # data - {EmailOptions}
+    # data - {Object}
+    #   :to
+    #   :subject
+    #   :text
+    #   :html
     # callback - {Function}({Error} err)
     #
     # Returns null

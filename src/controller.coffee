@@ -1,9 +1,9 @@
 {NotFound, DSError} = require './utils/errors'
 
-# Public : minimalist convenience controller
+# Public: minimalist convenience controller
 class Controller
 
-    # Public : create a new controller from a model and params
+    # Public: create a new controller from a model and params
     #
     # options - {Object} options
     #       :model - {String} model to be used
@@ -27,7 +27,7 @@ class Controller
 
 
 
-    # Public : express handler to be link a model to the request
+    # Public: express handler to be link a model to the request
     # set a req[@reqProp] with the model found from the param id.
     # You should use this or {::find} but not both
     #
@@ -43,7 +43,7 @@ class Controller
             req[@reqProp] = found
             next()
 
-    # Public : express handler to link a model to the request
+    # Public: express handler to link a model to the request
     # set a req[@reqProp] with the model found from the param @reqParamID
     # You should use this or {::fetch} but not both
     #
@@ -63,7 +63,7 @@ class Controller
             req[@reqProp] = found
             next()
 
-    # Public : express handler to send the result of request 'all'
+    # Public: express handler to send the result of request 'all'
     #
     # Returns null
     #
@@ -75,14 +75,14 @@ class Controller
             return next err if err
             res.send 200, items
 
-    # Public : express handler to send the @reqProp model
+    # Public: express handler to send the @reqProp model
     #
     #
     # Returns null
     send: (req, res, next) =>
         res.send 200, req[@reqProp]
 
-    # Public : express handler to update the @reqParamID model with request body
+    # Public: express handler to update the @reqParamID model with request body
     # (dont get the model before update)
     #
     # Returns null
@@ -98,7 +98,7 @@ class Controller
             res.send 200, updated
             next()
 
-    # Public : express handler to destroy the @reqParamID model
+    # Public: express handler to destroy the @reqParamID model
     # (dont get the model before destroy)
     #
     # Returns null
@@ -141,7 +141,7 @@ class Controller
                 You should set only one of reqParamFilename or filename
                 """
 
-    # Public : express handler to send a file
+    # Public: express handler to send a file
     # (no need for a {::find} or {::fetch} before)
     #
     # options -
@@ -161,7 +161,7 @@ class Controller
             req.on 'close', -> stream.abort()
             stream.pipe res
 
-    # Public : express handler to send a file
+    # Public: express handler to send a file
     # (no need for a {::find} or {::fetch} before)
     #
     # options -

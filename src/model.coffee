@@ -119,7 +119,8 @@ class Model
     # Public: attach a file to the object
     #
     # id - {String}, id of the model to update
-    # path - {String} path or {Buffer} or {Stream}
+    # path - {String} path or [Buffer](http://nodejs.org/api/buffer.html) or
+    #        [Stream](http://nodejs.org/api/stream.html)
     # data - Object options linked with upload
     #        :filename - {String} Name of the file
     # callback - Function({Error} err)
@@ -132,12 +133,14 @@ class Model
     # Public: get an attached file as a stream
     #
     # id - {String}, id of the model to update
-    # path - {String}, path or {Buffer} or {Stream}
+    # path - {String}, path or [Buffer](http://nodejs.org/api/buffer.html) or
+    #        [Stream](http://nodejs.org/api/stream.html)
     # data - Obejct options linked with upload
     #        :filename - {String} Name of the file
-    # callback - Function({Error} err, {Stream} stream})
+    # callback - Function({Error} err,
+    #               [Stream](http://nodejs.org/api/stream.html) stream})
     #
-    # Returns a {Stream} for the model
+    # Returns a [Stream](http://nodejs.org/api/stream.html) for the model
     @getFile: (id, path, callback) ->
         @fileAdapter.get id, path, callback
 
@@ -171,7 +174,8 @@ class Model
     # Public: attach a file to the object
     #
     # id - {String}, id of the model to update
-    # path - {String}, path or {Buffer} or {Stream}
+    # path - {String}, path or [Buffer](http://nodejs.org/api/buffer.html) or
+    #       [Stream](http://nodejs.org/api/stream.html)
     # data - Obejct options linked with upload
     #        :filename - {String} Name of the file
     # callback - Function({Error} err)
@@ -184,10 +188,12 @@ class Model
     # Public: get an attached file as a stream
     #
     # id - {String}, id of the model to update
-    # path - {String}, path or {Buffer} or {Stream}
+    # path - {String}, path or [Buffer](http://nodejs.org/api/buffer.html) or
+    #        [Stream](http://nodejs.org/api/stream.html)
     # data - Obejct options linked with upload
     #        :filename - {String} Name of the file
-    # callback - Function({Error} err, {Stream} file)
+    # callback - Function({Error} err,
+    #               [Stream](http://nodejs.org/api/stream.html) file)
     #
     # Returns a {LaterStream} for the file
     @getBinary: (id, path, callback) ->
