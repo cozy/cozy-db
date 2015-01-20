@@ -9,9 +9,10 @@
   "scripts": {
     "test": "mocha tests/*.coffee --bail --compilers coffee:coffee-script/register",
     "test:unit": "mocha tests/type_checking.coffee --bail --compilers coffee:coffee-script/register",
-    "lint": "coffeelint",
+    "lint": "coffeelint src -f .coffeelint.json",
     "build": "coffee  --output lib --compile src",
-    "build:doc": "biscotto"
+    "build:doc": "biscotto",
+    "prepublish": "npm run build && npm run lint"
   },
   "repository": {
     "type": "git",
@@ -28,9 +29,10 @@
     "coffee-script": "1.8.0",
     "mocha": "1.21.5",
     "biscotto": "2.3.1",
-    "async": "^0.9.0",
-    "request-json-light": "^0.5.11",
-    "lodash.isequal": "^2.4.1"
+    "async": "0.9.0",
+    "request-json-light": "0.5.11",
+    "lodash.isequal": "2.4.1",
+    "coffeelint": "1.8.1"
   },
   "dependencies": {
     "request-json-light": "^0.5.12"
