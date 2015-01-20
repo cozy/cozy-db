@@ -113,6 +113,9 @@ describe "API Functions", ->
                 tags.should.have.property 'length', 3
                 done null
 
+
+### need to mock postfix in travis for mail sending tests
+
     describe "Send common mail", ->
 
         it "When I send the mail", (done) ->
@@ -155,3 +158,5 @@ describe "API Functions", ->
 
         it "Then no error is returned", ->
             should.not.exist @err
+
+###
