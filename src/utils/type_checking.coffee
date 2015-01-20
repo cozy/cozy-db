@@ -84,6 +84,10 @@ exports.castObject = castObject = (raw, schema, target = {}) ->
 
     handled = []
 
+    if schema is NoSchema
+        target[prop] = value for prop, value of raw
+        return target
+
     for own prop, typeOrOptions of schema
         target[prop] = castValue raw[prop], typeOrOptions
         handled.push prop if reportCastIgnore

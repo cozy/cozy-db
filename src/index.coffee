@@ -11,19 +11,20 @@ module.exports.SimpleController = Controller = require './controller'
 module.exports.NoSchema = NoSchema
 
 
-module.exports.defaultRequests =
+module.exports.defaultRequests = defaultRequests =
     all: (doc) -> emit doc._id, doc
     tags: (doc) -> emit(tag, doc) for tag in doc.tags or []
     by: (field) ->
         ((doc) -> emit doc.FIELD, doc).toString().replace 'FIELD', field
 
 
-api = require './api'
+module.exports.api = api = require './api'
 module.exports[key] = value for key, value of api
 
 
 module.exports.getModel = (name, schema) ->
 
+    # Internal: Generated Class from getModel
     klass = class ClassFromGetModel extends CozyModel
         @schema: schema
 
@@ -61,10 +62,21 @@ module.exports.configure = (options, app, callback) ->
         for requestName, requestDefinition of requestDefinitions
             requestsToSave.push {model, requestName, requestDefinition}
 
+    # add all request for cozyinstance & user
+    requestsToSave.push
+        model: api.CozyInstance
+        requestName: 'all'
+        requestDefinition: defaultRequests.all
+
+    requestsToSave.push
+        model: api.CozyUser
+        requestName: 'all'
+        requestDefinition: defaultRequests.all
+
     # loop over them asynchroniously
     do step = (i = 0) ->
         {model, requestName, requestDefinition} = requestsToSave[i]
-        log "#{docType} - #{requestName} request creation..."
+        log "#{model.getDocType()} - #{requestName} request creation..."
         model.defineRequest requestName, requestDefinition, (err) ->
             if err
                 log "failed", err

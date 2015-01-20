@@ -87,7 +87,7 @@ class Api
             return callback err if err
             email = user?.email
 
-            if email then callback null, tz
+            if email then callback null, email
             else callback new Error 'No user set'
 
     # Public: get all existing tags in the cozy
@@ -181,3 +181,5 @@ class Api
 
 
 module.exports = api = new Api()
+module.exports.CozyInstance = CozyInstance
+module.exports.CozyUser = CozyUser
