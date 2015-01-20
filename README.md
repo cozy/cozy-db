@@ -14,11 +14,14 @@ This will automatically declare your model's requests to the data-system.
 
 ### .api
 
-Expose utility functions for accessing some cozy informations : locale
+Expose utility functions for accessing some cozy informations.
+[all available functions](http://aenario.github.io/cozydb/doc/classes/Api.html)
 
 ```coffeescript
 require('cozydb').api.getCozyLocale (err, locale) ->
 ```
+
+Warning: You still need to ask the proper permissions in package.json
 
 ### subclassing
 
