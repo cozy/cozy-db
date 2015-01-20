@@ -197,16 +197,6 @@
   </li>
   <li>
     <span class='signature'>
-      <a href='#destroyAll-class'>
-        .<strong>destroyAll</strong>(params, callback)
-      </a>
-    </span>
-    <span class='desc'>
-      
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
       <a href='#exists-class'>
         .<strong>exists</strong>(id, callback)
       </a>
@@ -247,32 +237,12 @@
   </li>
   <li>
     <span class='signature'>
-      <a href='#getDocType-class'>
-        String .<strong>getDocType</strong>()
-      </a>
-    </span>
-    <span class='desc'>
-      STATIC FUNCTIONS Private: get the Model&#39;s docType
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
       <a href='#getFile-class'>
-        Stream .<strong>getFile</strong>(id, path, callback)
+        .<strong>getFile</strong>(id, path, callback)
       </a>
     </span>
     <span class='desc'>
       get an attached file as a stream
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#index-class'>
-        .<strong>index</strong>(id, fields, callback)
-      </a>
-    </span>
-    <span class='desc'>
-      methods that are both static and instance
     </span>
   </li>
   <li>
@@ -520,36 +490,6 @@
   </li>
   <li>
     <span class='signature'>
-      <a href='#toJSON-instance'>
-        ::<strong>toJSON</strong>()
-      </a>
-    </span>
-    <span class='desc'>
-      
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#toObject-instance'>
-        ::<strong>toObject</strong>()
-      </a>
-    </span>
-    <span class='desc'>
-      
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#toString-instance'>
-        ::<strong>toString</strong>()
-      </a>
-    </span>
-    <span class='desc'>
-      
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
       <a href='#updateAttributes-instance'>
         ::<strong>updateAttributes</strong>(attributes, callback)
       </a>
@@ -564,7 +504,7 @@
   <div class='method_details'>
     <p class='signature' id='all-class'>
       .<strong>all</strong>(params, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L299'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L305'>Source</a>
     </p>
     <div class='docstring'>
    Public: List all instance of a model
@@ -603,13 +543,14 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='attachBinary-class'>
       .<strong>attachBinary</strong>(id, path, data, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L178'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L182'>Source</a>
     </p>
     <div class='docstring'>
    Public: attach a file to the object
 
 id - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, id of the model to update
-path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a>
+path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or [Buffer](http://nodejs.org/api/buffer.html) or
+      [Stream](http://nodejs.org/api/stream.html)
 data - Obejct options linked with upload
        :filename - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> Name of the file
 callback - Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
@@ -629,7 +570,7 @@ Returns null
       <span class='type'>(String)</span>
       <span class='name'>path</span>
       &mdash;
-      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a></span>
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href="http://nodejs.org/api/buffer.html">Buffer</a> or <a href="http://nodejs.org/api/stream.html">Stream</a></span>
     </li>
     <li>
       <span class='name'>data</span>
@@ -663,13 +604,14 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='attachFile-class'>
       .<strong>attachFile</strong>(id, path, data, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L126'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L127'>Source</a>
     </p>
     <div class='docstring'>
    Public: attach a file to the object
 
 id - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, id of the model to update
-path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a>
+path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> path or [Buffer](http://nodejs.org/api/buffer.html) or
+       [Stream](http://nodejs.org/api/stream.html)
 data - Object options linked with upload
        :filename - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> Name of the file
 callback - Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
@@ -689,7 +631,7 @@ Returns null
       <span class='type'>(String)</span>
       <span class='name'>path</span>
       &mdash;
-      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a></span>
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> path or <a href="http://nodejs.org/api/buffer.html">Buffer</a> or <a href="http://nodejs.org/api/stream.html">Stream</a></span>
     </li>
     <li>
       <span class='name'>data</span>
@@ -723,7 +665,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='cast-class'>
       Object .<strong>cast</strong>(attributes, target = {})
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L320'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L326'>Source</a>
     </p>
     <div class='docstring'>
    Public: cast a POJO using this model schema
@@ -800,7 +742,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='defineRequest-class'>
       .<strong>defineRequest</strong>(name, request, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L231'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L237'>Source</a>
     </p>
     <div class='docstring'>
    Public: Define a map/reduce request for this model
@@ -897,17 +839,6 @@ Returns null
 </div>
   </div>
   <div class='method_details'>
-    <p class='signature' id='destroyAll-class'>
-      .<strong>destroyAll</strong>(params, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L325'>Source</a>
-    </p>
-    <div class='docstring'>
-  ~Private~
-</div>
-<div class='tags'>
-</div>
-  </div>
-  <div class='method_details'>
     <p class='signature' id='exists-class'>
       .<strong>exists</strong>(id, callback)
       <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L32'>Source</a>
@@ -972,7 +903,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='first-class'>
       .<strong>first</strong>(callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L309'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L315'>Source</a>
     </p>
     <div class='docstring'>
    Public: Find the first item of this kind
@@ -1004,16 +935,18 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='getBinary-class'>
       LaterStream .<strong>getBinary</strong>(id, path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L191'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L197'>Source</a>
     </p>
     <div class='docstring'>
    Public: get an attached file as a stream
 
 id - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, id of the model to update
-path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a>
+path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or [Buffer](http://nodejs.org/api/buffer.html) or
+       [Stream](http://nodejs.org/api/stream.html)
 data - Obejct options linked with upload
        :filename - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> Name of the file
-callback - Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/Stream.html'>Stream</a> file)
+callback - Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err,
+              [Stream](http://nodejs.org/api/stream.html) file)
 
 Returns a <a href='../classes/LaterStream.html'>LaterStream</a> for the file 
 </div>
@@ -1030,7 +963,7 @@ Returns a <a href='../classes/LaterStream.html'>LaterStream</a> for the file
       <span class='type'>(String)</span>
       <span class='name'>path</span>
       &mdash;
-      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a></span>
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href="http://nodejs.org/api/buffer.html">Buffer</a> or <a href="http://nodejs.org/api/stream.html">Stream</a></span>
     </li>
     <li>
       <span class='name'>data</span>
@@ -1049,7 +982,7 @@ Returns a <a href='../classes/LaterStream.html'>LaterStream</a> for the file
       <span class='type'>(Error)</span>
       <span class='name'>callback</span>
       &mdash;
-      <span class='desc'>Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/Stream.html'>Stream</a> file)</span>
+      <span class='desc'>Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href="http://nodejs.org/api/stream.html">Stream</a> file)</span>
     </li>
   </ul>
   <h3>Returns:</h3>
@@ -1064,43 +997,22 @@ Returns a <a href='../classes/LaterStream.html'>LaterStream</a> for the file
 </div>
   </div>
   <div class='method_details'>
-    <p class='signature' id='getDocType-class'>
-      String .<strong>getDocType</strong>()
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L23'>Source</a>
-    </p>
-    <div class='docstring'>
-   Private: STATIC FUNCTIONS
-Private: get the Model's docType
-
-Returns <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> the model docType 
-</div>
-<div class='tags'>
-  <h3>Returns:</h3>
-  <ul class='return'>
-    <li>
-      <span class='type'></span>
-      (<tt>String</tt>)
-      &mdash;
-      <span class='desc'>Returns <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> the model docType</span>
-    </li>
-  </ul>
-</div>
-  </div>
-  <div class='method_details'>
     <p class='signature' id='getFile-class'>
-      Stream .<strong>getFile</strong>(id, path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L139'>Source</a>
+      .<strong>getFile</strong>(id, path, callback)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L142'>Source</a>
     </p>
     <div class='docstring'>
    Public: get an attached file as a stream
 
 id - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, id of the model to update
-path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a>
+path - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or [Buffer](http://nodejs.org/api/buffer.html) or
+       [Stream](http://nodejs.org/api/stream.html)
 data - Obejct options linked with upload
        :filename - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a> Name of the file
-callback - Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/Stream.html'>Stream</a> stream})
+callback - Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err,
+              [Stream](http://nodejs.org/api/stream.html) stream})
 
-Returns a <a href='../classes/Stream.html'>Stream</a> for the model 
+Returns a [Stream](http://nodejs.org/api/stream.html) for the model 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -1115,7 +1027,7 @@ Returns a <a href='../classes/Stream.html'>Stream</a> for the model
       <span class='type'>(String)</span>
       <span class='name'>path</span>
       &mdash;
-      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href='../classes/Buffer.html'>Buffer</a> or <a href='../classes/Stream.html'>Stream</a></span>
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String'>String</a>, path or <a href="http://nodejs.org/api/buffer.html">Buffer</a> or <a href="http://nodejs.org/api/stream.html">Stream</a></span>
     </li>
     <li>
       <span class='name'>data</span>
@@ -1134,35 +1046,22 @@ Returns a <a href='../classes/Stream.html'>Stream</a> for the model
       <span class='type'>(Error)</span>
       <span class='name'>callback</span>
       &mdash;
-      <span class='desc'>Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href='../classes/Stream.html'>Stream</a> stream})</span>
+      <span class='desc'>Function(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err, <a href="http://nodejs.org/api/stream.html">Stream</a> stream})</span>
     </li>
   </ul>
   <h3>Returns:</h3>
   <ul class='return'>
     <li>
       <span class='type'></span>
-      (<tt><a href='../classes/Stream.html'>Stream</a></tt>)
-      &mdash;
-      <span class='desc'>Returns a <a href='../classes/Stream.html'>Stream</a> for the model</span>
+      <span class='desc'>Returns a <a href="http://nodejs.org/api/stream.html">Stream</a> for the model</span>
     </li>
   </ul>
 </div>
   </div>
   <div class='method_details'>
-    <p class='signature' id='index-class'>
-      .<strong>index</strong>(id, fields, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L112'>Source</a>
-    </p>
-    <div class='docstring'>
-  Private: methods that are both static and instance 
-</div>
-<div class='tags'>
-</div>
-  </div>
-  <div class='method_details'>
     <p class='signature' id='rawRequest-class'>
       .<strong>rawRequest</strong>(name, params, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L264'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L270'>Source</a>
     </p>
     <div class='docstring'>
    Public: Get results for defined request for this model
@@ -1207,7 +1106,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='removeBinary-class'>
       .<strong>removeBinary</strong>(id, path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L217'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L223'>Source</a>
     </p>
     <div class='docstring'>
    Public: remove an attached file
@@ -1252,7 +1151,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='removeFile-class'>
       .<strong>removeFile</strong>(id, path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L166'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L169'>Source</a>
     </p>
     <div class='docstring'>
    Public: remove an attached file
@@ -1297,7 +1196,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='removeRequest-class'>
       .<strong>removeRequest</strong>(name, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L275'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L281'>Source</a>
     </p>
     <div class='docstring'>
    Public: remove a Request
@@ -1335,7 +1234,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='request-class'>
       .<strong>request</strong>(name, params, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L249'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L255'>Source</a>
     </p>
     <div class='docstring'>
    Public: Get results for defined request for this model
@@ -1379,7 +1278,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='requestDestroy-class'>
       .<strong>requestDestroy</strong>(name, params, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L286'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L292'>Source</a>
     </p>
     <div class='docstring'>
    Public: Destroy results for defined request for this model
@@ -1467,7 +1366,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='saveBinary-class'>
       .<strong>saveBinary</strong>(id, path, filePath, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L203'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L209'>Source</a>
     </p>
     <div class='docstring'>
    Public: [DEPRECATED] save an attached file to disk
@@ -1519,7 +1418,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='saveFile-class'>
       .<strong>saveFile</strong>(id, path, filePath, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L151'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L154'>Source</a>
     </p>
     <div class='docstring'>
    Public: [DEPRECATED] save an attached file to disk
@@ -1656,7 +1555,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
       Model ::<strong>constructor</strong>(attributes)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L335'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L341'>Source</a>
     </p>
     <div class='docstring'>
    Public: constructor
@@ -1691,7 +1590,7 @@ Returns a <a href='../classes/Model.html'>Model</a> instance
   <div class='method_details'>
     <p class='signature' id='attachBinary-instance'>
       ::<strong>attachBinary</strong>(path, data, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L427'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L433'>Source</a>
     </p>
     <div class='docstring'>
    Public: attach a file to the object
@@ -1704,7 +1603,7 @@ Instance version of <a href='../classes/Model.html#attachBinary-class'>.attachBi
   <div class='method_details'>
     <p class='signature' id='attachFile-instance'>
       ::<strong>attachFile</strong>(path, data, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L396'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L402'>Source</a>
     </p>
     <div class='docstring'>
    Public: attach a file to the object
@@ -1717,7 +1616,7 @@ Instance version of <a href='../classes/Model.html#attachFile-class'>.attachFile
   <div class='method_details'>
     <p class='signature' id='destroy-instance'>
       ::<strong>destroy</strong>(callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L376'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L382'>Source</a>
     </p>
     <div class='docstring'>
    Public: desttroy
@@ -1750,7 +1649,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='getAttributes-instance'>
       ::<strong>getAttributes</strong>()
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L460'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L466'>Source</a>
     </p>
     <div class='docstring'>
    Public: getAttributes
@@ -1772,7 +1671,7 @@ Returns Object
   <div class='method_details'>
     <p class='signature' id='getBinary-instance'>
       ::<strong>getBinary</strong>(path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L434'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L440'>Source</a>
     </p>
     <div class='docstring'>
    Public: get an attached file as a stream
@@ -1785,7 +1684,7 @@ Instance version of <a href='../classes/Model.html#getBinary-class'>.getBinary</
   <div class='method_details'>
     <p class='signature' id='getFile-instance'>
       ::<strong>getFile</strong>(path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L404'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L410'>Source</a>
     </p>
     <div class='docstring'>
    Public: get an attached file as a stream
@@ -1798,7 +1697,7 @@ Instance version of <a href='../classes/Model.html#getFile-class'>.getFile</a>
   <div class='method_details'>
     <p class='signature' id='index-instance'>
       ::<strong>index</strong>(fields, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L389'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L395'>Source</a>
     </p>
     <div class='docstring'>
    Public: index
@@ -1838,7 +1737,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='removeBinary-instance'>
       ::<strong>removeBinary</strong>(path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L449'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L455'>Source</a>
     </p>
     <div class='docstring'>
    Public: remove an attached file
@@ -1851,7 +1750,7 @@ Instance version of <a href='../classes/Model.html#removeBinary-class'>.removeBi
   <div class='method_details'>
     <p class='signature' id='removeFile-instance'>
       ::<strong>removeFile</strong>(path, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L419'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L425'>Source</a>
     </p>
     <div class='docstring'>
    Public: remove an attached file
@@ -1864,7 +1763,7 @@ Instance version of <a href='../classes/Model.html#removeFile-class'>.removeFile
   <div class='method_details'>
     <p class='signature' id='save-instance'>
       ::<strong>save</strong>(callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L348'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L354'>Source</a>
     </p>
     <div class='docstring'>
    Public: [DEPRECATED] save
@@ -1897,7 +1796,7 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='saveBinary-instance'>
       ::<strong>saveBinary</strong>(path, filePath, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L442'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L448'>Source</a>
     </p>
     <div class='docstring'>
    Public: [DEPRECATED] save an attached file to disk
@@ -1910,7 +1809,7 @@ Instance version of <a href='../classes/Model.html#saveBinary-class'>.saveBinary
   <div class='method_details'>
     <p class='signature' id='saveFile-instance'>
       ::<strong>saveFile</strong>(path, filePath, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L412'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L418'>Source</a>
     </p>
     <div class='docstring'>
    Public: [DEPRECATED] save an attached file to disk
@@ -1921,36 +1820,9 @@ Instance version of <a href='../classes/Model.html#saveFile-class'>.saveFile</a>
 </div>
   </div>
   <div class='method_details'>
-    <p class='signature' id='toJSON-instance'>
-      ::<strong>toJSON</strong>()
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L467'>Source</a>
-    </p>
-    <div class='docstring'>
-  ~Private~
-</div>
-<div class='tags'>
-</div>
-  </div>
-  <div class='method_details'>
-    <p class='signature' id='toObject-instance'>
-      ::<strong>toObject</strong>()
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L468'>Source</a>
-    </p>
-    <div class='tags'>
-</div>
-  </div>
-  <div class='method_details'>
-    <p class='signature' id='toString-instance'>
-      ::<strong>toString</strong>()
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L469'>Source</a>
-    </p>
-    <div class='tags'>
-</div>
-  </div>
-  <div class='method_details'>
     <p class='signature' id='updateAttributes-instance'>
       ::<strong>updateAttributes</strong>(attributes, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L363'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;model.coffee#L369'>Source</a>
     </p>
     <div class='docstring'>
    Public: updateAttributes
@@ -1990,7 +1862,7 @@ Returns null
     </div>
     <div id='footer'>
   Generated on
-  Mon Jan 19 2015 15:40:33 GMT+0000 (UTC)
+  Tue Jan 20 2015 08:54:18 GMT+0000 (UTC)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.2.4

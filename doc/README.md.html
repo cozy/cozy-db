@@ -114,12 +114,40 @@
         </p>
       </nav>
       <div id='filecontents'>
-        
+        <h2 id="-cozy-http-cozy-io-orm"><a href="http://cozy.io">Cozy</a> ORM</h2><p>Replacement of jugglingdb for cozy application. The base class is the
+<a href="http://aenario.github.io/cozydb/doc/classes/Model.html">Model</a>. The
+<a href="http://aenario.github.io/cozydb/doc/classes/CozyBackedModel.html">CozyModel</a>
+is a subclass of a Model to use with the cozy-data-system.</p><h2 id="use-with-americano-https-github-com-cozy-americano-">Use with <a href="https://github.com/cozy/americano">Americano</a></h2><p>Simply add <code>&#39;cozydb&#39;</code> to the americano plugin list in server/config.
+This will automatically declare your model&#39;s requests to the data-system.</p><h2 id="changes-from-jugglingdb-jugglingdb-cozy-adapter-and-americano-cozy">Changes from jugglingdb, jugglingdb-cozy-adapter and americano-cozy</h2>
+<h3 id="-api">.api</h3><p>Expose utility functions for accessing some cozy informations : locale</p><pre><code class="lang-coffeescript">require(&#39;cozydb&#39;).api.getCozyLocale (err, locale) -&gt;
+</code></pre>
+<h3 id="subclassing">subclassing</h3><p>Model and CozyBackedModel are simple Coffeescript class, you can easily extends
+them :</p><pre><code class="lang-coffeescript">class Note extends cozydb.CozyModel
+class MagickNote extends Note
+</code></pre>
+<h3 id="model-first">Model.first</h3><p>Get the first instance of a Model, or null if none exists</p><h2 id="contribution">Contribution</h2><p>You can contribute to the Cozy Data System in many ways:</p><ul>
+<li>Pick up an <a href="https://github.com/aenario/cozydb/issues?state=open">issue</a> and solve it.</li>
+<li>Write new tests.</li>
+</ul>
+<h2 id="tests">Tests</h2><p><a href="https://travis-ci.org/aenario/cozydb"><img src="https://travis-ci.org/aenario/cozydb.png?branch=master" alt="Build
+Status"></a></p><p>Run tests with following commmand</p><pre><code>npm test
+</code></pre><h2 id="before-submitting-a-pull-request">Before submitting a pull request</h2><p>Make sure you have build &amp; linted your code with</p><pre><code>npm run prepublish
+</code></pre><h2 id="license">License</h2><p>Cozydb is developed by Cozy Cloud and distributed under the AGPL v3 license.</p><h2 id="what-is-cozy-">What is Cozy?</h2><p><img src="https://raw.github.com/mycozycloud/cozy-setup/gh-pages/assets/images/happycloud.png" alt="Cozy Logo"></p><p><a href="http://cozy.io">Cozy</a> is a platform that brings all your web services in the
+same private space.  With it, your web apps and your devices can share data
+easily, providing you
+with a new experience. You can install Cozy on your own hardware where no one
+profiles you.</p><h2 id="community">Community</h2><p>You can reach the Cozy Community by:</p><ul>
+<li>Chatting with us on IRC #cozycloud on irc.freenode.net</li>
+<li>Posting on our <a href="https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud">Forum</a></li>
+<li>Posting issues on the <a href="https://github.com/mycozycloud/">Github repos</a></li>
+<li>Mentioning us on <a href="http://twitter.com/mycozycloud">Twitter</a></li>
+</ul>
+
       </div>
     </div>
     <div id='footer'>
   Generated on
-  Mon Jan 19 2015 15:40:33 GMT+0000 (UTC)
+  Tue Jan 20 2015 08:54:18 GMT+0000 (UTC)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.2.4

@@ -461,13 +461,29 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='sendMail-instance'>
       ::<strong>sendMail</strong>(data, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L109'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L125'>Source</a>
     </p>
     <div class='docstring'>
    Public: send an email
 Warning : Your app need to ask the "send mail" permission
 
-data - <a href='../classes/EmailOptions.html'>EmailOptions</a>
+data - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object'>Object</a>
+  :to
+  :from
+  :subject
+  :cc
+  :bcc
+  :replyTo
+  :inReplyTo
+  :references
+  :headers
+  :alternatives
+  :envelope
+  :messageId
+  :date
+  :encoding
+  :text
+  :html
 callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
 
 Returns null 
@@ -476,11 +492,61 @@ Returns null
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='type'>(EmailOptions)</span>
+      <span class='type'>(Object)</span>
       <span class='name'>data</span>
       &mdash;
-      <span class='desc'><a href='../classes/EmailOptions.html'>EmailOptions</a></span>
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object'>Object</a></span>
     </li>
+    <ul class='options'>
+      <li>
+        <span class='name'>to</span>
+      </li>
+      <li>
+        <span class='name'>from</span>
+      </li>
+      <li>
+        <span class='name'>subject</span>
+      </li>
+      <li>
+        <span class='name'>cc</span>
+      </li>
+      <li>
+        <span class='name'>bcc</span>
+      </li>
+      <li>
+        <span class='name'>replyTo</span>
+      </li>
+      <li>
+        <span class='name'>inReplyTo</span>
+      </li>
+      <li>
+        <span class='name'>references</span>
+      </li>
+      <li>
+        <span class='name'>headers</span>
+      </li>
+      <li>
+        <span class='name'>alternatives</span>
+      </li>
+      <li>
+        <span class='name'>envelope</span>
+      </li>
+      <li>
+        <span class='name'>messageId</span>
+      </li>
+      <li>
+        <span class='name'>date</span>
+      </li>
+      <li>
+        <span class='name'>encoding</span>
+      </li>
+      <li>
+        <span class='name'>text</span>
+      </li>
+      <li>
+        <span class='name'>html</span>
+      </li>
+    </ul>
     <li>
       <span class='type'>(Function)</span>
       <span class='name'>callback</span>
@@ -500,13 +566,17 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='sendMailFromUser-instance'>
       ::<strong>sendMailFromUser</strong>(data, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L145'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L169'>Source</a>
     </p>
     <div class='docstring'>
    Public: send an email from the cozy owner
 Warning : Your app need to ask the "send mail from user" permission
 
-data - <a href='../classes/EmailOptions.html'>EmailOptions</a>
+data - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object'>Object</a>
+  :to
+  :subject
+  :text
+  :html
 callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
 
 Returns null 
@@ -515,11 +585,25 @@ Returns null
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='type'>(EmailOptions)</span>
+      <span class='type'>(Object)</span>
       <span class='name'>data</span>
       &mdash;
-      <span class='desc'><a href='../classes/EmailOptions.html'>EmailOptions</a></span>
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object'>Object</a></span>
     </li>
+    <ul class='options'>
+      <li>
+        <span class='name'>to</span>
+      </li>
+      <li>
+        <span class='name'>subject</span>
+      </li>
+      <li>
+        <span class='name'>text</span>
+      </li>
+      <li>
+        <span class='name'>html</span>
+      </li>
+    </ul>
     <li>
       <span class='type'>(Function)</span>
       <span class='name'>callback</span>
@@ -539,13 +623,17 @@ Returns null
   <div class='method_details'>
     <p class='signature' id='sendMailToUser-instance'>
       ::<strong>sendMailToUser</strong>(data, callback)
-      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L127'>Source</a>
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;api.coffee#L147'>Source</a>
     </p>
     <div class='docstring'>
    Public: send an email to the cozy owner
 Warning : Your app need to ask the "send mail to user" permission
 
-data - <a href='../classes/EmailOptions.html'>EmailOptions</a>
+data - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object'>Object</a>
+  :to
+  :subject
+  :text
+  :html
 callback - <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function'>Function</a>(<a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error'>Error</a> err)
 
 Returns null 
@@ -554,11 +642,25 @@ Returns null
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='type'>(EmailOptions)</span>
+      <span class='type'>(Object)</span>
       <span class='name'>data</span>
       &mdash;
-      <span class='desc'><a href='../classes/EmailOptions.html'>EmailOptions</a></span>
+      <span class='desc'><a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object'>Object</a></span>
     </li>
+    <ul class='options'>
+      <li>
+        <span class='name'>to</span>
+      </li>
+      <li>
+        <span class='name'>subject</span>
+      </li>
+      <li>
+        <span class='name'>text</span>
+      </li>
+      <li>
+        <span class='name'>html</span>
+      </li>
+    </ul>
     <li>
       <span class='type'>(Function)</span>
       <span class='name'>callback</span>
@@ -579,7 +681,7 @@ Returns null
     </div>
     <div id='footer'>
   Generated on
-  Mon Jan 19 2015 15:40:33 GMT+0000 (UTC)
+  Tue Jan 20 2015 08:54:18 GMT+0000 (UTC)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.2.4
