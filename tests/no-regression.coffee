@@ -561,6 +561,7 @@ describe "Search features", ->
         it "And I send a request to search the notes containing dragons", \
                 (done) ->
             Note.search "dragons", (err, notes) =>
+                return done err if err
                 @notes = notes
                 @indexer.close()
                 done()
