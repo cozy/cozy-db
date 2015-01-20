@@ -554,7 +554,7 @@ describe "Search features", ->
                         body.query.should.equal "dragons"
                         200
                     else 204
-                @indexer.listen 9102
+                @indexer.listen 9092
                 setTimeout done, 500
 
 
