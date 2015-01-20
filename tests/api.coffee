@@ -2,9 +2,7 @@ should = require 'should'
 CozyAdapter = require('../src/index')
 Client = require("request-json").JsonClient
 client = new Client "http://localhost:9101/"
-process.env.NAME = "test"
-process.env.TOKEN = "token"
-client.setBasicAuth "test", "token"
+client.setBasicAuth "test", "apptoken"
 
 
 describe "API Functions", ->

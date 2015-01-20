@@ -9,11 +9,7 @@ Client = require("request-json").JsonClient
 adapter = require('../src/index')
 
 client = new Client "http://localhost:9101/"
-
-process.env.NAME = "test"
-process.env.TOKEN = "token"
-
-client.setBasicAuth "test", "token"
+client.setBasicAuth "test", "apptoken"
 
 TESTFILENAME = 'test.png'
 TESTFILE = path.join __dirname, TESTFILENAME
@@ -33,36 +29,10 @@ Note = adapter.getModel 'Note',
 #  - removed createMany
 #  - prevent creating a doc with a given id
 
-describe "Create application with all permissions", ->
-
-    it "When I create application", (done) ->
-        data =
-            name: "test"
-            slug: "test"
-            docType: "Application"
-            password: "token"
-            permissions:
-                "All":
-                    description: "..."
-        client.setBasicAuth "home", "token"
-        client.post 'data/', data, (error, response, body) =>
-            @response = response
-            @error = error
-            done()
-
-    it "Then no error should be returned", ->
-        should.not.exist @error
-
-    it "And 201 should be return as response code", ->
-        @response.statusCode.should.equal 201
-
-
-
 describe "Existence", ->
 
     before (done) ->
         client.del "data/321/", (error, response, body) ->
-            client.setBasicAuth "test", "token"
             data =
                 value: "created value"
                 docType: "Note"

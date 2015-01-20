@@ -17,4 +17,7 @@ before_install:
     - cat forever-ds.log
     - sudo netstat -plunt
     - curl http://localhost:9101/
+    - coffee commands.coffee test-install test ../tests/server/allpermissions.json
     - cd ..
+    - export NAME=test
+    - export TOKEN=apptoken
