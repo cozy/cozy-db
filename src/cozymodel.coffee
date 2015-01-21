@@ -129,11 +129,9 @@ cozyFileAdapter =
     attach: (id, path, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/attachments/"
-        request = client.sendFile urlPath, path, data, \
-        (error, response, body) ->
+        client.sendFile urlPath, path, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
-        request.setHeader 'Authorization', client.headers.authorization
 
     get: (id, filename, callback) ->
         urlPath = "data/#{id}/attachments/#{filename}"
@@ -151,11 +149,9 @@ cozyBinaryAdapter =
     attach: (id, path, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/binaries/"
-        request = client.sendFile urlPath, path, data, \
-        (error, response, body) ->
+        client.sendFile urlPath, path, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
-        request.setHeader 'Authorization', client.headers.authorization
 
     get: (id, filename, callback) ->
         urlPath = "data/#{id}/binaries/#{filename}"

@@ -117,7 +117,6 @@ class Controller
     # Private: utility function to pipe file from ds to client
     copySafeHeaders = (dsres, myres) ->
 
-        console.log 'this called'
         # copy headers from ds response to my response
         for header, value of dsres.headers
             myres.setHeader header, value

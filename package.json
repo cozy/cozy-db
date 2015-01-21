@@ -35,6 +35,6 @@
     "coffeelint": "1.8.1"
   },
   "dependencies": {
-    "request-json-light": "0.5.12"
+    "request-json-light": "0.5.13"
   }
 }
