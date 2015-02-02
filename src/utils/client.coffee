@@ -1,6 +1,9 @@
 # create client
 request = require 'request-json-light'
-client = request.newClient 'http://localhost:9101'
+
+# Data System's port is configurable
+DS_PORT = process.env.DS_PORT or 9101
+client = request.newClient "http://localhost:#{DS_PORT}"
 
 # DS token
 if process.env.NODE_ENV in ["production","test"]
