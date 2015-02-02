@@ -463,7 +463,7 @@ class Model
     # Instance version of {.removeBinary}
     removeBinary: (path, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.removeBinary.call @constructor, @id, path callback
+        @constructor.removeBinary.call @constructor, @id, path, callback
 
 
 
