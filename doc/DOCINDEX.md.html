@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>Cozy Models</title>
+  <link rel='stylesheet' href='assets/biscotto.css' type='text/css'>
+  <script src='assets/biscotto.js'></script>
+  <script src='assets/search_data.js'></script>
+</head>
+  <body>
+    <div id='base' data-path=''></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='DOCINDEX.md.html' title='Cozy Models'>Cozy Models</a>
+    &raquo;
+    <a href='class_index.html' title='Index'>Index</a>
+    &raquo;
+    <span class='title'>DOCINDEX.md</span>
+    <nav>
+      <ul>
+        <li class='noframes'>
+          (<a class='noframes' href='#'>no frames</a>)
+        </li>
+      </ul>
+    </nav>
+    <div id='search'>
+      <a id='class_list_link' href='class_list.html'>Classes</a>
+      <a id='method_list_link' href='method_list.html'>Methods</a>
+      <a id='extra_list_link' href='extra_list.html'>Extras</a>
+    </div>
+  </div>
+  <iframe id='search_frame'></iframe>
+  <div id='fuzzySearch'>
+    <input type='text'>
+    <ol></ol>
+  </div>
+  <div id='help'>
+    <p>
+      Quickly fuzzy find classes, mixins, methods, file:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-T</span>
+        Open fuzzy finder dialog
+      </li>
+    </ul>
+    <p>
+      In frame mode you can toggle the list naviation frame on the left side:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-L</span>
+        Toggle list view
+      </li>
+    </ul>
+    <p>
+      You can focus a list in frame mode or toggle a tab in frameless mode:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-C</span>
+        Class list
+      </li>
+      <li>
+        <span>Ctrl-I</span>
+        Mixin list
+      </li>
+      <li>
+        <span>Ctrl-F</span>
+        File list
+      </li>
+      <li>
+        <span>Ctrl-M</span>
+        Method list
+      </li>
+      <li>
+        <span>Ctrl-E</span>
+        Extras list
+      </li>
+    </ul>
+    <p>
+      You can focus and blur the search input:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-S</span>
+        Focus search input
+      </li>
+      <li>
+        <span>Esc</span>
+        Blur search input
+      </li>
+    </ul>
+    <p>
+      In frameless mode you can close the list tab:
+    </p>
+    <ul>
+      <li>
+        <span>Esc</span>
+        Close list tab
+      </li>
+    </ul>
+  </div>
+</div>
+    <div id='content'>
+      <nav class='toc'>
+        <p class='title'>
+          <a class='hide_toc' href='#'>
+            <strong>Table of Contents</strong>
+          </a>
+          <small>
+            (<a class='float_toc' href='#'>left</a>)
+          </small>
+        </p>
+      </nav>
+      <div id='filecontents'>
+        <h2 id="-cozy-http-cozy-io-orm"><a href="http://cozy.io">Cozy</a> ORM</h2><p>Replacement of jugglingdb for cozy application.</p><h2 id="exports">Exports</h2><p>This module exports several things</p><ul>
+<li><p>cozydb.<a href="./classes/CozyBackedModel.html">CozyModel</a> is the class your
+models should inherit from. It is an implementation of the
+<a href="./classes/Model.html">Model</a> interface.</p></li>
+<li><p>cozydb.<a href="./classes/Api.html">api</a> expose various function to access data
+from the cozy (such as locale, timezone, owner email ...)</p></li>
+<li><p>cozydb.<a href="./classes/Controller.html">SimpleController</a> is a controller which
+expose express middlewares to easily work with cozydb Models.
+```</p></li>
+</ul>
+<h2 id="usage">Usage</h2>
+<pre><code class="lang-coffeescript"># Existence
+Note.exists 123, (err, isExist) -&gt;
+    console.log isExist
+
+# Find
+Note.find 321, (err, note) -&gt;
+    console.log note
+
+# Create
+Note.create { &quot;content&quot;:&quot;created value&quot;}, (err, note) -&gt;
+    console.log note.id # 321
+
+# Update attributes
+Note.updateAttributes &quot;321&quot;, title: &quot;my new title&quot;, (err) -&gt;
+
+# Delete
+Note.destroy &quot;321&quot;, (err) -&gt;
+
+# you can also call the function on model instances
+note.updateAttributes title: &quot;my new title&quot;, (err) -&gt;
+    console.log err
+note.destroy (err) -&gt;
+    console.log err
+</code></pre>
+<h3 id="indexation">Indexation</h3>
+<pre><code class="lang-coffeescript"># Index document fields
+note.index [&quot;title&quot;, &quot;content&quot;], (err) -&gt;
+    console.log err
+Note.index &quot;321&quot;, [&quot;title&quot;, &quot;content&quot;], (err) -&gt;
+
+# Search through indexes
+Note.search &quot;dragons&quot;, (err, notes) -&gt;
+    console.log notes
+</code></pre>
+<h3 id="files">Files</h3>
+<pre><code class="lang-coffeescript"># Attach file
+note.attachFile &quot;./test.png&quot;, (err) -&gt;
+    console.log err
+
+# Get file
+stream = @note.getFile &quot;test.png&quot;, (err) -&gt;
+     console.log err
+stream.pipe fs.createWriteStream(&#39;./test-get.png&#39;)
+</code></pre>
+<h2 id="use-with-americano-https-github-com-cozy-americano-">Use with <a href="https://github.com/cozy/americano">Americano</a></h2><p>Simply add <code>cozydb</code> to the americano plugin list in server/config.
+The americano plugin will fetch <code>./models/requests.coffee</code>
+and register the requests on the data-system.</p><p>If you dont use americano, you can manually create your requests with
+<a href="./classes/Model.html#defineRequest-class">defineRequest</a></p>
+      </div>
+    </div>
+    <div id='footer'>
+  Generated on
+  Mon Feb 02 2015 17:39:27 GMT+0100 (CET)
+  by
+  <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
+  v2.3.1
+  (Node.js v0.10.26).
+  &#10034;
+  Press Ctrl-h to see the keyboard shortcuts
+</div>
+  </body>
+</html>
