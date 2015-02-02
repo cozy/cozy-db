@@ -1,4 +1,5 @@
 util = require 'util'
+fs = require 'fs'
 
 deprecated = ->
     if process.env.NODE_ENV not in ['test', 'production']
@@ -12,6 +13,8 @@ _wrapCallback = (that, changes, callback) ->
         else
             that[key] = value for key, value of data
         callback null, that
+
+{NotOnNewModel} = require './utils/errors'
 
 
 # Public: the model class
@@ -111,7 +114,7 @@ class Model
 
     # methods that are both static and instance
     @index: (id, fields, callback) ->
-        @indexAdapter.index.call @, id, field, callback
+        @indexAdapter.index.call @, id, fields, callback
 
 
     # FILES & BINARIES FUNCTIONS
@@ -223,7 +226,7 @@ class Model
     #
     # Returns null
     @removeBinary: (id, path, callback) ->
-        @binaryAdapter.remove id, path, filePath, callback
+        @binaryAdapter.remove id, path, callback
 
     # REQUESTS FUNCTION
 
@@ -358,9 +361,10 @@ class Model
     save: (callback) ->
         cb = _wrapCallback @, {}, callback
         if @id
-            @constructor.adapter.save @id, @getAttributes(), cb
+            @constructor.adapter.save
+            .call @constructor, @id, @getAttributes(), cb
         else
-            @constructor.adapter.create @getAttributes(), cb
+            @constructor.adapter.create.call @constructor, @getAttributes(), cb
 
     # Public: updateAttributes
     #
@@ -373,7 +377,8 @@ class Model
     updateAttributes: (attributes, callback) ->
         return callback NotOnNewModel() unless @id
         cb = _wrapCallback @, attributes, callback
-        @constructor.adapter.updateAttributes @id, attributes, cb
+        @constructor.adapter.updateAttributes
+        .call @constructor, @id, attributes, cb
 
 
     # Public: desttroy
@@ -385,7 +390,7 @@ class Model
     # Returns null
     destroy: (callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.destroy @id, callback
+        @constructor.destroy.call @constructor, @id, callback
 
 
     # Public: index
@@ -405,7 +410,7 @@ class Model
     # Instance version of {.attachFile}
     attachFile: (path, data, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.attachFile @id, path, data, callback
+        @constructor.attachFile.call @constructor, @id, path, data, callback
 
 
     # Public: get an attached file as a stream
@@ -413,7 +418,7 @@ class Model
     # Instance version of {.getFile}
     getFile: (path, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.getFile @id, path, callback
+        @constructor.getFile.call @constructor, @id, path, callback
 
 
     # Public: [DEPRECATED] save an attached file to disk
@@ -421,14 +426,14 @@ class Model
     # Instance version of {.saveFile}
     saveFile: (path, filePath, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.saveFile @id, path, filePath, callback
+        @constructor.saveFile.call @constructor, @id, path, filePath, callback
 
     # Public: remove an attached file
     #
     # Instance version of {.removeFile}
     removeFile: (path, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.removeFile @id, path, callback
+        @constructor.removeFile.call @constructor, @id, path, callback
 
 
     # Public: attach a file to the object
@@ -436,14 +441,14 @@ class Model
     # Instance version of {.attachBinary}
     attachBinary: (path, data, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.attachBinary @id, path, data, callback
+        @constructor.attachBinary.call @constructor, @id, path, data, callback
 
     # Public: get an attached file as a stream
     #
     # Instance version of {.getBinary}
     getBinary: (path, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.getBinary @id, path, data, callback
+        @constructor.getBinary.call @constructor, @id, path, callback
 
 
     # Public: [DEPRECATED] save an attached file to disk
@@ -451,14 +456,14 @@ class Model
     # Instance version of {.saveBinary}
     saveBinary: (path, filePath, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.saveBinary @id, path, filePath, callback
+        @constructor.saveBinary.call @constructor, @id, path, filePath, callback
 
     # Public: remove an attached file
     #
     # Instance version of {.removeBinary}
     removeBinary: (path, callback) ->
         return callback NotOnNewModel() unless @id
-        @constructor.removeBinary @id, path callback
+        @constructor.removeBinary.call @constructor, @id, path callback
 
 
 

@@ -1,12 +1,13 @@
 
 _toString = (x) -> Object.prototype.toString.call x
-_isArray = Array.isArray or (x) -> '[object Array]' is _toString obj
-_isMap = (x) -> '[object Object]' is _toString obj
+_isArray = Array.isArray or (x) -> '[object Array]' is _toString x
+_isMap = (x) -> '[object Object]' is _toString x
 _default = (value, defaultValue, lastDefault) ->
     if value isnt undefined then value
     else if defaultValue isnt undefined then defaultValue
     else lastDefault
 
+{WrongShemaError} = require './errors'
 
 exports.NoSchema = NoSchema = {symbol: 'NoSchema'}
 
@@ -62,7 +63,7 @@ exports.castValue = castValue = (value, typeOrOptions) ->
     # support for typed array tags: [String]
     # default to empty array
     else if _isArray type
-        throw new WrongShemaError 'empty array' unless type[0]
+        throw WrongShemaError 'empty array' unless type[0]
         value = _default value, defaultValue, []
         arrayType = type[0]
         return value.map (item) -> castValue item, arrayType
@@ -72,7 +73,7 @@ exports.castValue = castValue = (value, typeOrOptions) ->
         return type(value)
 
     # unknown type throw
-    else throw new WrongShemaError "unsuported type ", type
+    else throw WrongShemaError "unsuported type ", type
 
     return out
 

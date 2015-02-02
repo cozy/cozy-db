@@ -10,6 +10,8 @@ module.exports.SimpleController = Controller = require './controller'
 {NoSchema} = require './utils/type_checking'
 module.exports.NoSchema = NoSchema
 
+# jshint
+emit = ->
 
 module.exports.defaultRequests = defaultRequests =
     all: (doc) -> emit doc._id, doc
@@ -19,8 +21,6 @@ module.exports.defaultRequests = defaultRequests =
 
 
 module.exports.api = api = require './api'
-module.exports[key] = value for key, value of api
-
 
 module.exports.getModel = (name, schema) ->
 
@@ -34,18 +34,38 @@ module.exports.getModel = (name, schema) ->
 
     return klass
 
+log = ->
+    return null if process.env.NODE_ENV is 'test'
+    console.log.apply console, arguments
+
 # to use cozydb as an americano module
 # Plugin configuration: run through models/requests.(coffee|js) and save
 # them all in the Cozy Data System.
 module.exports.configure = (options, app, callback) ->
 
     callback ?= ->
-    root = if typeof options is 'string' then options else options.root
-    modelPath = "#{root}/server/models/"
+    if typeof options is 'string'
+        options = root: options
 
-    log = ->
-        return null if process.env.NODE_ENV is 'test'
-        console.log.apply console, arguments
+    # if we are given a db or dbName options
+    # the app is meant to be used standalone
+    if options.db or options.dbName
+        try
+            Pouch = require 'pouchdb'
+            PouchModel = require './pouchmodel'
+            module.exports.CozyModel = CozyModel = PouchModel
+            if options.db
+                PouchModel.db = options.db
+            else
+                options.dbName ?= process.env.POUCHDB_NAME or 'cozy'
+                PouchModel.db = new Pouch options.dbName
+
+        catch err
+            console.log err
+            return callback err
+
+    modelPath = "#{options.root}/server/models/"
+
 
     # get the requests file
     try requests = require modelPath + "requests"
@@ -73,8 +93,7 @@ module.exports.configure = (options, app, callback) ->
         requestName: 'all'
         requestDefinition: defaultRequests.all
 
-    # loop over them asynchroniously
-    do step = (i = 0) ->
+    step = (i = 0) ->
         {model, requestName, requestDefinition} = requestsToSave[i]
         log "#{model.getDocType()} - #{requestName} request creation..."
         model.defineRequest requestName, requestDefinition, (err) ->
@@ -90,3 +109,5 @@ module.exports.configure = (options, app, callback) ->
             else
                 log "succeeded"
                 step i + 1
+    # loop over them asynchroniously
+    step 0

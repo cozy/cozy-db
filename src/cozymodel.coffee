@@ -234,3 +234,19 @@ module.exports = class CozyBackedModel extends Model
             @schema.binaries = Object
 
         super
+
+    # Convert binary from _attachment to binary
+    @convertBinary: (id, callback) ->
+        url = "data/#{id}/binaries/convert"
+        client.get url, (error, response, body) ->
+            if error
+                callback error
+            else if response.statusCode is 404
+                callback new Error "Document not found"
+            else if response.statusCode isnt 200
+                callback new Error "Server error occured."
+            else
+                callback()
+
+    convertBinary: (cb) ->
+        @constructor.convertBinary.call @constructor, @id, cb

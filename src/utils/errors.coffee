@@ -11,3 +11,14 @@ exports.DSError = (originalErr) ->
     err.stack = originalErr.stack
     err.status = 500
     return err
+
+exports.WrongShemaError = (msg) ->
+    msg = "WrongShemaError: " + msg
+    err = new Error msg
+    return err
+
+exports.NotOnNewModel = ->
+    return new Error """
+        Wrong Usage : you attempted to call an instance method on a model
+        without id.
+    """
