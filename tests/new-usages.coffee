@@ -40,7 +40,7 @@ describe "Allow subclassing of Models", ->
             mn = created
             done(err)
 
-    it "so does the ", ->
+    it "so does the subclassed methods", ->
         mn.doTheMagick()
         ref.should.equal 1
 
@@ -67,9 +67,9 @@ describe "Binaries", ->
         client.del "data/321/", (error, response, body) ->
             done()
 
-    describe "Add an attachment", ->
+    describe "Add an binary", ->
 
-        it "When I add an attachment", (done) ->
+        it "When I add an binary", (done) ->
             @note.attachBinary TESTFILE, (err) =>
                 @err = err
                 done()
@@ -77,9 +77,9 @@ describe "Binaries", ->
         it "Then no error is returned", ->
             should.not.exist @err
 
-    describe "Retrieve an attachment", ->
+    describe "Retrieve an binary", ->
 
-        it "When I claim this attachment", (done) ->
+        it "When I claim this binary", (done) ->
             @timeout 10000
             stream = @note.getBinary TESTFILENAME, -> done()
             stream.pipe fs.createWriteStream(TESTFILEOUT)
@@ -89,9 +89,9 @@ describe "Binaries", ->
             resultStats = fs.statSync(TESTFILEOUT)
             resultStats.size.should.equal fileStats.size
 
-    describe "Remove an attachment", ->
+    describe "Remove an binary", ->
 
-        it "When I remove this attachment", (done) ->
+        it "When I remove this binary", (done) ->
             @note.removeBinary TESTFILENAME, (err) =>
                 @err = err
                 done()
@@ -99,7 +99,7 @@ describe "Binaries", ->
         it "Then no error is returned", ->
             should.not.exist @err
 
-        it "When I claim this attachment", (done) ->
+        it "When I claim this binary", (done) ->
             stream = @note.getBinary TESTFILENAME, (err) =>
                 @err = err
                 done()
