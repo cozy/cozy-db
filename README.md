@@ -2,7 +2,7 @@
 
 Replacement of jugglingdb for cozy application.
 
-Read [the doc](http://http://aenario.github.io/cozydb/doc/DOCINDEX.md.html)
+Read [the doc](http://aenario.github.io/cozydb/doc/DOCINDEX.md.html)
 
 ## Contribution
 
