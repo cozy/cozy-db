@@ -1,48 +1,21 @@
-## [Cozy](http://cozy.io) ORM
+# [Cozy](http://cozy.io) ORM
 
-Replacement of jugglingdb for cozy application. The base class is the
-[Model](http://aenario.github.io/cozydb/doc/classes/Model.html). The
-[CozyModel](http://aenario.github.io/cozydb/doc/classes/CozyBackedModel.html)
-is a subclass of a Model to use with the cozy-data-system.
+Replacement of jugglingdb for cozy application.
 
-## Use with [Americano](https://github.com/cozy/americano)
-
-Simply add `'cozydb'` to the americano plugin list in server/config.
-This will automatically declare your model's requests to the data-system.
-
-## Changes from jugglingdb, jugglingdb-cozy-adapter and americano-cozy
-
-### .api
-
-Expose utility functions for accessing some cozy informations.
-[all available functions](http://aenario.github.io/cozydb/doc/classes/Api.html)
-
-```coffeescript
-require('cozydb').api.getCozyLocale (err, locale) ->
-```
-
-Warning: You still need to ask the proper permissions in package.json
-
-### subclassing
-
-Model and CozyBackedModel are simple Coffeescript class, you can easily extends
-them :
-
-```coffeescript
-class Note extends cozydb.CozyModel
-class MagickNote extends Note
-```
-
-### Model.first
-
-Get the first instance of a Model, or null if none exists
+Read [the doc](http://http://aenario.github.io/cozydb/doc/DOCINDEX.md.html)
 
 ## Contribution
 
-You can contribute to the Cozy Data System in many ways:
+You can contribute to cozydb in many ways:
 
-* Pick up an [issue](https://github.com/aenario/cozydb/issues?state=open) and solve it.
+* Pick up an [issue](https://github.com/aenario/cozydb/issues?state=open)
+and solve it.
 * Write new tests.
+
+Before submitting a pull request, make sure you have
+build & linted your code with
+
+    npm run prepublish
 
 ## Tests
 
@@ -53,18 +26,8 @@ Run tests with following commmand
 
     npm test
 
-
-## Before submitting a pull request
-
-Make sure you have build & linted your code with
-
-    npm run prepublish
-
-
-
-## License
-
-Cozydb is developed by Cozy Cloud and distributed under the AGPL v3 license.
+## LICENSE
+[AGPL v3](https://github.com/aenario/cozydb/blob/master/LICENSE.md)
 
 ## What is Cozy?
 

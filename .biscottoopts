@@ -1,5 +1,5 @@
 --name       "Cozy Models"
---readme     README.md
+--readme     DOCINDEX.md
 --title      "Cozy Models"
 --quiet
 --output-dir doc
