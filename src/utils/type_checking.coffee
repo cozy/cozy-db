@@ -23,7 +23,7 @@ exports.castValue = castValue = (value, typeOrOptions) ->
         defaultValue = undefined
 
 
-    if value is undefined
+    if value is undefined or value is null
         if _isArray type then return []
         else return defaultValue
 
