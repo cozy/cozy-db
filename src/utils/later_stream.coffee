@@ -1,3 +1,6 @@
+EventEmitter = require('events').EventEmitter
+
+
 drainStream = (stream, cb) ->
     body = ''
     stream.on 'data', (chunk) -> body += chunk if cb

@@ -9,9 +9,7 @@
   "scripts": {
     "test": "mocha tests/*.coffee --bail --compilers coffee:coffee-script/register",
     "test:unit": "mocha tests/type_checking.coffee --bail --compilers coffee:coffee-script/register",
-    "lint": "npm run lint1 && npm run lint2",
-    "lint1": "coffeelint src -f .coffeelint.json",
-    "lint2": "coffee-jshint -o node src/**.coffee -f .coffeelint.json",
+    "lint": "coffeelint src -f .coffeelint.json",
     "build": "coffee  --output lib --compile src",
     "build:doc": "biscotto",
     "prepublish": "npm run build && npm run lint"
