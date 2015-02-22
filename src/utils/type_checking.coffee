@@ -1,3 +1,5 @@
+log = require('printit')
+    prefix: 'Cozy DB'
 
 _toString = (x) -> Object.prototype.toString.call x
 _isArray = Array.isArray or (x) -> '[object Array]' is _toString x
@@ -95,8 +97,8 @@ exports.castObject = castObject = (raw, schema, target = {}) ->
 
     if reportCastIgnore
         for own prop, value of raw when prop not in handled
-            console.log "Warning : cast ignored property '#{prop}'", \
-                    raw, new Error().stack
+            log.warn "Warning : cast ignored property '#{prop}'", \
+                     raw, new Error().stack
 
     return target
 
