@@ -97,8 +97,7 @@ exports.castObject = castObject = (raw, schema, target = {}) ->
 
     if reportCastIgnore
         for own prop, value of raw when prop not in handled
-            log.warn "Warning : cast ignored property '#{prop}'", \
-                     raw, new Error().stack
+            log.warn "Warning : cast ignored property '#{prop}'"
 
     return target
 
