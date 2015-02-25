@@ -171,7 +171,7 @@ cozyRequestsAdapter =
         {map, reduce} = request
 
         view =
-            reduce: reduce
+            reduce: reduce?.toString()
             map: """
                 function (doc) {
                   if (doc.docType.toLowerCase() === "#{docType}") {
