@@ -719,6 +719,47 @@ describe "Requests", ->
                 @notes.should.have.length 1
                 @notes[0].id.should.equal ids[3]
 
+    describe "Reduced View creation", ->
+
+        it "When I send a request to create view reduced", (done) ->
+            delete @err
+            view =
+                reduce: (key, values, rereduce) -> true
+                map: (doc) ->
+                    emit doc._id, doc
+                    return
+
+            Note.defineRequest "reduced", view, (err) ->
+                should.not.exist err
+                done()
+
+        it "When I send a request to access view reduced", (done) ->
+            Note.rawRequest "reduced", group_level: 1, (err, notes) =>
+                should.not.exist err
+                notes.should.have.length 4
+                notes[0].value.should.equal true
+                done()
+
+        it "When I send a request to create view reduced_string", (done) ->
+            delete @err
+            view =
+                reduce: '_count'
+                map: (doc) ->
+                    emit doc._id, doc
+                    return
+
+            Note.defineRequest "reduced_string", view, (err) ->
+                should.not.exist err
+                done()
+
+
+        it "When I send a request to access view every_docs", (done) ->
+            Note.rawRequest "reduced_string", group_level: 1, (err, notes) =>
+                should.not.exist err
+                notes.should.have.length 4
+                notes[0].value.should.equal 1
+                done()
+
     describe "Deletion of docs through requests", ->
 
         describe "Delete a doc from a view : every_notes", (done) ->
@@ -769,6 +810,8 @@ describe "Requests", ->
             Note.removeRequest "every_notes", (err) ->
                 should.not.exist err
                 done()
+
+
 
         # Following DS commit 8e43fc66
         # the request will be kept in case another app use it
