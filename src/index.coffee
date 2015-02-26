@@ -1,3 +1,5 @@
+log = require('printit')
+    prefix: 'Cozy DB'
 
 # Public: the Model constructor
 module.exports.Model = Model = require './model'
@@ -34,9 +36,6 @@ module.exports.getModel = (name, schema) ->
 
     return klass
 
-log = ->
-    return null if process.env.NODE_ENV is 'test'
-    console.log.apply console, arguments
 
 # to use cozydb as an americano module
 # Plugin configuration: run through models/requests.(coffee|js) and save
@@ -70,7 +69,8 @@ module.exports.configure = (options, app, callback) ->
     # get the requests file
     try requests = require modelPath + "requests"
     catch err
-        log "failed to load requests file", err
+        log.raw err
+        log.error "Failed to load requests file."
         return callback err
 
 
@@ -95,19 +95,19 @@ module.exports.configure = (options, app, callback) ->
 
     step = (i = 0) ->
         {model, requestName, requestDefinition} = requestsToSave[i]
-        log "#{model.getDocType()} - #{requestName} request creation..."
+        log.info "#{model.getDocType()} - #{requestName} request creation..."
         model.defineRequest requestName, requestDefinition, (err) ->
             if err
-                log "failed", err
-                log "A request creation failed, abandon."
+                log.raw err
+                log.error "A request creation failed, abandon."
                 callback err
 
             else if i + 1 >= requestsToSave.length
-                log "requests creation complete"
+                log.info "requests creation completed"
                 callback null
 
             else
-                log "succeeded"
+                log.info "succeeded"
                 step i + 1
     # loop over them asynchroniously
     step 0
