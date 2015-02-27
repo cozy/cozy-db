@@ -1,4 +1,5 @@
 log = require('printit')
+    date: true
     prefix: 'Cozy DB'
 
 # Public: the Model constructor
