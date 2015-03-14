@@ -70,7 +70,7 @@ cozyDataAdapter =
             if error
                 callback error
             else if response.statusCode is 404
-                callback new Error "Document not found"
+                callback new Error "Document #{id} not found"
             else if response.statusCode isnt 200
                 callback new Error "Server error occured."
             else
@@ -81,7 +81,7 @@ cozyDataAdapter =
             if error
                 callback error
             else if response.statusCode is 404
-                callback new Error "Document not found"
+                callback new Error "Document #{id} not found"
             else if response.statusCode isnt 200
                 callback new Error "Server error occured."
             else
@@ -92,7 +92,7 @@ cozyDataAdapter =
             if error
                 callback error
             else if response.statusCode is 404
-                callback new Error "Document not found"
+                callback new Error "Document #{id} not found"
             else if response.statusCode isnt 204
                 callback new Error "Server error occured."
             else
@@ -134,13 +134,13 @@ cozyFileAdapter =
             checkError error, response, body, 201, callback
 
     get: (id, filename, callback) ->
-        urlPath = "data/#{id}/attachments/#{filename}"
+        urlPath = "data/#{id}/attachments/#{encodeURIComponent filename}"
         output = new LaterStream callback
         client.saveFileAsStream urlPath, output.onReadableReady
         return output
 
     remove: (id, filename, callback) ->
-        urlPath = "data/#{id}/attachments/#{filename}"
+        urlPath = "data/#{id}/attachments/#{encodeURIComponent filename}"
         client.del urlPath, (error, response, body) ->
             checkError error, response, body, 204, callback
 
@@ -154,13 +154,13 @@ cozyBinaryAdapter =
             checkError error, response, body, 201, callback
 
     get: (id, filename, callback) ->
-        urlPath = "data/#{id}/binaries/#{filename}"
+        urlPath = "data/#{id}/binaries/#{encodeURIComponent filename}"
         output = new LaterStream callback
         client.saveFileAsStream urlPath, output.onReadableReady
         return output
 
     remove: (id, filename, callback) ->
-        urlPath = "data/#{id}/binaries/#{filename}"
+        urlPath = "data/#{id}/binaries/#{encodeURIComponent filename}"
         client.del urlPath, (error, response, body) ->
             checkError error, response, body, 204, callback
 
