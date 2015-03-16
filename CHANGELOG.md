@@ -3,7 +3,7 @@
 ### .api
 
 Expose utility functions for accessing some cozy informations.
-[all available functions](http://aenario.github.io/cozydb/doc/classes/Api.html)
+[all available functions](http://cozy.github.io/cozy-db/doc/classes/Api.html)
 
 ```coffeescript
 require('cozydb').api.getCozyLocale (err, locale) ->

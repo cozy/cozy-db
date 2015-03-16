@@ -2,13 +2,13 @@
 
 Replacement of jugglingdb for cozy application.
 
-Read [the doc](http://aenario.github.io/cozydb/doc/DOCINDEX.md.html)
+Read [the doc](http://cozy.github.io/cozy-db/doc/DOCINDEX.md.html)
 
 ## Contribution
 
 You can contribute to cozydb in many ways:
 
-* Pick up an [issue](https://github.com/aenario/cozydb/issues?state=open)
+* Pick up an [issue](https://github.com/cozy/cozy-db/issues?state=open)
 and solve it.
 * Write new tests.
 
@@ -20,14 +20,14 @@ build & linted your code with
 ## Tests
 
 [![Build
-Status](https://travis-ci.org/aenario/cozydb.png?branch=master)](https://travis-ci.org/aenario/cozydb)
+Status](https://travis-ci.org/cozy/cozydb.png?branch=master)](https://travis-ci.org/cozy/cozydb)
 
 Run tests with following commmand
 
     npm test
 
 ## LICENSE
-[AGPL v3](https://github.com/aenario/cozydb/blob/master/LICENSE.md)
+[AGPL v3](https://github.com/cozy/cozydb/blob/master/LICENSE.md)
 
 ## What is Cozy?
 
