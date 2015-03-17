@@ -86,19 +86,21 @@ module.exports.configure = (options, app, callback) ->
     # add all request for cozyinstance & user
     requestsToSave.push
         model: api.CozyInstance
+        optional: true
         requestName: 'all'
         requestDefinition: defaultRequests.all
 
     requestsToSave.push
         model: api.CozyUser
+        optional: true
         requestName: 'all'
         requestDefinition: defaultRequests.all
 
     step = (i = 0) ->
-        {model, requestName, requestDefinition} = requestsToSave[i]
+        {model, requestName, requestDefinition, optional} = requestsToSave[i]
         log.info "#{model.getDocType()} - #{requestName} request creation..."
         model.defineRequest requestName, requestDefinition, (err) ->
-            if err
+            if err and not optional
                 log.raw err
                 log.error "A request creation failed, abandon."
                 callback err
