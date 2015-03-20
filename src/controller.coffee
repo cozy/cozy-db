@@ -158,6 +158,7 @@ class Controller
             stream = @model.getFile id, name, (err) -> next err if err
             stream.pipefilter = copySafeHeaders
             req.on 'close', -> stream.abort()
+            res.on 'close', -> stream.abort()
             stream.pipe res
 
     # Public: express handler to send a file
@@ -177,8 +178,8 @@ class Controller
             stream = @model.getBinary id, name, (err) -> next err if err
             stream.pipefilter = copySafeHeaders
             req.on 'close', -> stream.abort()
+            res.on 'close', -> stream.abort()
             stream.pipe res
-
 
 
 module.exports = Controller
