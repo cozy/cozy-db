@@ -210,7 +210,7 @@ pouchdbRequestsAdapter =
                     views: {}
             unless designDoc.views?
                 designDoc.views = {}
-            designDoc.views[name] = view
+            designDoc.views[name.toLowerCase()] = view
             PouchdbBackedModel.db.put designDoc, (err, designDoc) ->
                 callback()
 
