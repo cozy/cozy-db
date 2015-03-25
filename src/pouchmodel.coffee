@@ -27,10 +27,8 @@ pouchdbDataAdapter =
                 callback err
             else if not doc?
                 callback null, null
-            else if doc.docType.toLowerCase() isnt @getDocType().toLowerCase()
-                callback null, null
             else
-                callback null, new @ doc
+                callback null, doc
 
     create: (attributes, callback) ->
         func = 'post'
@@ -72,8 +70,26 @@ pouchdbDataAdapter =
                         callback()
 
     updateAttributes: (id, attributes, callback) ->
-        # @TODO, this should actually merge
-        @save id, attributes, callback
+        docType = @getDocType()
+        PouchdbBackedModel.db.get id, (err, doc) =>
+            if err
+                callback err
+            else if not doc?
+                callback new Error 'document does not exist'
+            else if doc.docType.toLowerCase() isnt docType.toLowerCase()
+                callback new Error 'document does not exist'
+            else
+                for own key, value of attributes
+                    doc[key] = value
+                PouchdbBackedModel.db.put doc, (err, response) ->
+                    if err
+                        callback err
+                    if not response.ok
+                        callback new Error """
+                            An error occured while updating document.'
+                        """
+                    else
+                        callback()
 
     destroy: (id, callback) ->
         PouchdbBackedModel.db.get id, (err, doc) =>
