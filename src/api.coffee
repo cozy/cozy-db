@@ -7,16 +7,6 @@ CozyInstance = null
 # Public model set by call to getCozyUser below
 CozyUser = null
 
-# Public: CozyInstance model
-#class CozyInstance extends cozydb.CozyModel
-#    @docType: 'CozyInstance'
-#    @schema: cozydb.NoSchema
-
-# Public: User model
-#class CozyUser extends cozydb.CozyModel
-#    @docType: 'User'
-#    @schema: cozydb.NoSchema
-
 # Public: kitchen sink class for various convenience methods
 #
 # Examples
