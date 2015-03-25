@@ -208,10 +208,7 @@ pouchdbRequestsAdapter =
                 callback err
             else
                 results = []
-                for doc in body.rows
-                    doc.value.id = doc.value._id
-                    results.push new @ doc.value
-                callback null, results
+                callback null, body.rows
 
     remove: (name, callback) ->
         docType = @getDocType()
