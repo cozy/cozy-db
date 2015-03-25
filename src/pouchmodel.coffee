@@ -13,7 +13,7 @@ pouchdbDataAdapter =
 
     # Check existence of model in the data system.
     exists: (id, callback) ->
-        @db.get id, (err, doc) ->
+        PouchdbBackedModel.db.get id, (err, doc) ->
             if err and not err.status is 404
                 callback err
             else if err?.status is 404
@@ -22,7 +22,7 @@ pouchdbDataAdapter =
                 callback null, true
 
     find: (id, callback) ->
-        @db.get id, (err, doc) =>
+        PouchdbBackedModel.db.get id, (err, doc) =>
             if err
                 callback err
             else if not doc?
@@ -41,7 +41,7 @@ pouchdbDataAdapter =
         else
             attributes._id = uuid.v4().split('-').join('')
 
-        @db[func] attributes, (err, response) ->
+        PouchdbBackedModel.db[func] attributes, (err, response) ->
             if err
                 callback err
             else if not response.ok
@@ -51,7 +51,7 @@ pouchdbDataAdapter =
 
     save: (id, attributes, callback) ->
         attributes.docType = @getDocType()
-        @db.get attributes.id, (err, doc) =>
+        PouchdbBackedModel.db.get attributes.id, (err, doc) =>
             if err
                 callback err
             else if not doc?
@@ -61,7 +61,7 @@ pouchdbDataAdapter =
             else
                 attributes._id = attributes.id
                 attributes._rev = doc._rev
-                @db.put attributes, (err, response) ->
+                PouchdbBackedModel.db.put attributes, (err, response) ->
                     if err
                         callback err
                     if not response.ok
@@ -76,11 +76,11 @@ pouchdbDataAdapter =
         @save id, attributes, callback
 
     destroy: (id, callback) ->
-        @db.get id, (err, doc) =>
+        PouchdbBackedModel.db.get id, (err, doc) =>
             if err
                 callback err
             else
-                @db.remove doc, callback
+                PouchdbBackedModel.db.remove doc, callback
 
 # @todo implement me using pouchdb-quick-search
 pouchdbIndexAdapter =
@@ -187,7 +187,7 @@ pouchdbRequestsAdapter =
         view.reduce = reduce.toString() if reduce?
 
         viewName = "_design/#{docType.toLowerCase()}"
-        @db.get viewName, (err, designDoc) =>
+        PouchdbBackedModel.db.get viewName, (err, designDoc) =>
             unless designDoc?
                 designDoc =
                     _id: viewName
@@ -195,7 +195,7 @@ pouchdbRequestsAdapter =
             unless designDoc.views?
                 designDoc.views = {}
             designDoc.views[name] = view
-            @db.put designDoc, (err, designDoc) ->
+            PouchdbBackedModel.db.put designDoc, (err, designDoc) ->
                 callback()
 
     run: (name, params, callback) ->
@@ -203,21 +203,20 @@ pouchdbRequestsAdapter =
         docType = @getDocType()
 
         viewName = "#{docType.toLowerCase()}/#{name}"
-        @db.query viewName, params, (err, body) =>
+        PouchdbBackedModel.db.query viewName, params, (err, body) =>
             if err
                 callback err
             else
-                results = []
                 callback null, body.rows
 
     remove: (name, callback) ->
         docType = @getDocType()
         name = '_design/' + docType.toLowerCase() + '/' + name
-        @db.get name, (err, doc) ->
+        PouchdbBackedModel.db.get name, (err, doc) ->
             if err
                 callback err
             else
-                @db.remove doc, callback
+                PouchdbBackedModel.db.remove doc, callback
 
     requestDestroy: (name, params, callback) ->
         [params, callback] = [{}, params] if typeof(params) is "function"
