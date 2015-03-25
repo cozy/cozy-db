@@ -37,7 +37,7 @@ module.exports.getModel = (name, schema) ->
     return klass
 
 module.exports.api = api = require './api'
-  
+
 
 # to use cozydb as an americano module
 # Plugin configuration: run through models/requests.(coffee|js) and save
@@ -50,8 +50,9 @@ module.exports.configure = (options, app, callback) ->
     # if we are given a db or dbName options
     # or env variable is set
     # the app is meant to be used standalone
-    if process.env.RUN_STANDALONE or
-       options.db or options.dbName
+    console.log options
+    if process.env.RUN_STANDALONE or options.db or options.dbName
+        console.log 'AAAAAAAAAAAAAAAAAAAAAA'
         try
             Pouch = require 'pouchdb'
             PouchModel = require './pouchmodel'
