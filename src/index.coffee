@@ -2,6 +2,7 @@ log = require('printit')
     date: true
     prefix: 'Cozy DB'
 
+
 # Public: the Model constructor
 module.exports.Model = Model = require './model'
 
@@ -42,14 +43,15 @@ module.exports.getModel = (name, schema) ->
 # Plugin configuration: run through models/requests.(coffee|js) and save
 # them all in the Cozy Data System.
 module.exports.configure = (options, app, callback) ->
-
     callback ?= ->
     if typeof options is 'string'
         options = root: options
 
     # if we are given a db or dbName options
+    # or env variable is set
     # the app is meant to be used standalone
-    if options.db or options.dbName
+    if process.env.RUN_STANDALONE or
+       options.db or options.dbName
         try
             Pouch = require 'pouchdb'
             PouchModel = require './pouchmodel'
@@ -66,6 +68,8 @@ module.exports.configure = (options, app, callback) ->
 
     modelPath = "#{options.root}/server/models/"
 
+    api.getCozyInstance (->)
+    api.getCozyUser (->)
 
     # get the requests file
     try requests = require modelPath + "requests"
