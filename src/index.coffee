@@ -24,8 +24,6 @@ module.exports.defaultRequests = defaultRequests =
         ((doc) -> emit doc.FIELD, doc).toString().replace 'FIELD', field
 
 
-module.exports.api = api = require './api'
-
 module.exports.getModel = (name, schema) ->
 
     # Internal: Generated Class from getModel
@@ -38,6 +36,8 @@ module.exports.getModel = (name, schema) ->
 
     return klass
 
+module.exports.api = api = require './api'
+  
 
 # to use cozydb as an americano module
 # Plugin configuration: run through models/requests.(coffee|js) and save
@@ -68,8 +68,7 @@ module.exports.configure = (options, app, callback) ->
 
     modelPath = "#{options.root}/server/models/"
 
-    api.getCozyInstance (->)
-    api.getCozyUser (->)
+    api.setupModels()
 
     # get the requests file
     try requests = require modelPath + "requests"

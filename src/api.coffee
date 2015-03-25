@@ -1,11 +1,18 @@
 client = require './utils/client'
 cozydb = require './index'
 
-# Public model set by call to getCozyInstance below
 CozyInstance = null
-
-# Public model set by call to getCozyUser below
 CozyUser = null
+
+# Public models
+module.exports.setupModels = setupModels = ->
+    module.exports.CozyInstance = CozyInstance =
+      cozydb.getModel 'CozyInstance', cozydb.NoSchema
+    module.exports.CozyUser = CozyUser =
+      cozydb.getModel 'User', cozydb.NoSchema
+    return
+
+setupModels()
 
 # Public: kitchen sink class for various convenience methods
 #
@@ -21,8 +28,6 @@ class Api
     #
     # Returns null
     getCozyInstance: (callback) ->
-        if not CozyInstance?
-            module.exports.CozyInstance = CozyInstance = cozydb.getModel 'CozyInstance'
         CozyInstance.first callback
 
     # Public: get the CozyUser object
@@ -32,8 +37,6 @@ class Api
     #
     # Returns null
     getCozyUser: (callback) ->
-        if not CozyUser?
-            module.exports.CozyUser = CozyUser = cozydb.getModel 'CozyUser'
         CozyUser.first callback
 
     # Public: get the Cozy domain
@@ -181,5 +184,6 @@ class Api
 
 
 module.exports = api = new Api()
+module.exports.setupModels = setupModels
 module.exports.CozyInstance = CozyInstance
 module.exports.CozyUser = CozyUser
