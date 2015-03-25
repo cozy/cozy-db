@@ -50,9 +50,7 @@ module.exports.configure = (options, app, callback) ->
     # if we are given a db or dbName options
     # or env variable is set
     # the app is meant to be used standalone
-    console.log options
     if process.env.RUN_STANDALONE or options.db or options.dbName
-        console.log 'AAAAAAAAAAAAAAAAAAAAAA'
         try
             Pouch = require 'pouchdb'
             PouchModel = require './pouchmodel'
