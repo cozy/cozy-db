@@ -38,7 +38,6 @@
   "dependencies": {
     "mkdirp": "^0.5.0",
     "node-uuid": "^1.4.3",
-    "pouchdb": "3.3.1",
     "printit": "0.1.6",
     "remove": "^0.1.5",
     "request-json-light": "0.5.13"
