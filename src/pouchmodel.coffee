@@ -22,7 +22,7 @@ pouchdbDataAdapter =
                 callback null, true
 
     find: (id, callback) ->
-        PouchdbBackedModel.db.get id, (err, doc) =>
+        PouchdbBackedModel.db.get id, (err, doc) ->
             if err
                 callback err
             else if not doc?
@@ -45,7 +45,7 @@ pouchdbDataAdapter =
             else if not response.ok
                 callback new Error 'An error occured while creating document.'
             else
-                callback null, response.id
+                callback null, {id: response.id}
 
     save: (id, attributes, callback) ->
         attributes.docType = @getDocType()
@@ -67,11 +67,11 @@ pouchdbDataAdapter =
                             An error occured while saving document.'
                         """
                     else
-                        callback()
+                        callback null, attributes
 
     updateAttributes: (id, attributes, callback) ->
         docType = @getDocType()
-        PouchdbBackedModel.db.get id, (err, doc) =>
+        PouchdbBackedModel.db.get id, (err, doc) ->
             if err
                 callback err
             else if not doc?
@@ -80,6 +80,7 @@ pouchdbDataAdapter =
                 callback new Error 'document does not exist'
             else
                 for own key, value of attributes
+                    throw new Error("NOW") if key is '0'
                     doc[key] = value
                 PouchdbBackedModel.db.put doc, (err, response) ->
                     if err
@@ -89,10 +90,10 @@ pouchdbDataAdapter =
                             An error occured while updating document.'
                         """
                     else
-                        callback()
+                        callback null, doc
 
     destroy: (id, callback) ->
-        PouchdbBackedModel.db.get id, (err, doc) =>
+        PouchdbBackedModel.db.get id, (err, doc) ->
             if err
                 callback err
             else
@@ -203,7 +204,7 @@ pouchdbRequestsAdapter =
         view.reduce = reduce.toString() if reduce?
 
         viewName = "_design/#{docType.toLowerCase()}"
-        PouchdbBackedModel.db.get viewName, (err, designDoc) =>
+        PouchdbBackedModel.db.get viewName, (err, designDoc) ->
             unless designDoc?
                 designDoc =
                     _id: viewName
@@ -218,8 +219,8 @@ pouchdbRequestsAdapter =
         [params, callback] = [{}, params] if typeof(params) is "function"
         docType = @getDocType()
 
-        viewName = "#{docType.toLowerCase()}/#{name}"
-        PouchdbBackedModel.db.query viewName, params, (err, body) =>
+        viewName = "#{docType.toLowerCase()}/#{name.toLowerCase()}"
+        PouchdbBackedModel.db.query viewName, params, (err, body) ->
             if err
                 callback err
             else
@@ -267,3 +268,4 @@ module.exports = class PouchdbBackedModel extends Model
             @schema.id = String
             @schema.docType = String
             @schema.binaries = Object
+        super

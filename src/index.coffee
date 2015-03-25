@@ -62,6 +62,7 @@ module.exports.configure = (options, app, callback) ->
                 PouchModel.db = new Pouch options.dbName
 
         catch err
+            console.log "Fail to init pouchdb, did you install it ?"
             console.log err
             return callback err
 
