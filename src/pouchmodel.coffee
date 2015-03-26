@@ -31,13 +31,13 @@ pouchdbDataAdapter =
                 callback null, doc
 
     create: (attributes, callback) ->
-        func = 'post'
         if attributes.id? or attributes._id?
-            attributes.id = attributes._id unless attributes.id?
-            attributes._id = attributes.id unless attributes._id?
+            attributes.id = attributes._id unless attributes.id
+            attributes._id = attributes.id unless attributes._id
             func = 'put'
         else
-            attributes._id = uuid.v4().split('-').join('')
+            attributes._id = attributes.id = uuid.v4().split('-').join('')
+            func = 'post'
 
         PouchdbBackedModel.db[func] attributes, (err, response) ->
             if err
@@ -49,7 +49,7 @@ pouchdbDataAdapter =
 
     save: (id, attributes, callback) ->
         attributes.docType = @getDocType()
-        PouchdbBackedModel.db.get attributes.id, (err, doc) =>
+        PouchdbBackedModel.db.get id, (err, doc) =>
             if err
                 callback err
             else if not doc?
