@@ -83,7 +83,7 @@ exports.castValue = castValue = (value, typeOrOptions) ->
 
 reportCastIgnore = process.env.NODE_ENV not in ['production', 'test']
 
-exports.castObject = castObject = (raw, schema, target = {}) ->
+exports.castObject = castObject = (raw, schema, target = {}, name) ->
 
     handled = []
 
@@ -97,7 +97,7 @@ exports.castObject = castObject = (raw, schema, target = {}) ->
 
     if reportCastIgnore
         for own prop, value of raw when prop not in handled
-            log.warn "Warning : cast ignored property '#{prop}'"
+            log.warn "Warning : cast ignored property '#{prop}' on '#{name}'"
 
     return target
 

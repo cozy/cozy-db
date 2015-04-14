@@ -330,7 +330,7 @@ class Model
     #
     # Returns {Object} target
     @cast: (attributes, target = {}) ->
-        castObject attributes, @schema, target
+        castObject attributes, @schema, target, @name
 
 
     @destroyAll: (params, callback) ->
