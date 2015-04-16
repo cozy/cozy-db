@@ -97,6 +97,42 @@ defineRequests = (requestsToSave, callback, i = 0) ->
             log.info "succeeded"
             defineRequests requestsToSave, callback, i + 1
 
+requestsIndexingProgress = 0
+requestsIndexingTotal = 1
+requestsIndexingCallbacks = []
+
+module.exports.getRequestsReindexingProgress = ->
+    log.warn "#{requestsIndexingProgress} / #{requestsIndexingTotal}"
+    requestsIndexingProgress / requestsIndexingTotal
+
+module.exports.waitReindexing = (callback) ->
+    if requestsIndexingTotal is requestsIndexingProgress
+        callback null
+    else
+        requestsIndexingCallbacks.push callback
+
+forceIndexRequests = (requestsToSave, callback, i = 0) ->
+    {model, requestName} = requestsToSave[i]
+    requestsIndexingTotal = requestsToSave.length
+    log.info """
+        #{model.getDocType()} - #{requestName} reindexing #{requestsIndexingProgress}/#{requestsIndexingTotal}"""
+    model.request requestName, limit: 1, (err) ->
+        if err and err.code is 'ECONNRESET'
+            log.info " Timedout"
+            setTimeout ->
+                forceIndexRequests requestsToSave, callback, i
+            , 4000 # wait 4s, the request is timing out, probably reindex
+
+        else if i + 1 >= requestsToSave.length
+            requestsIndexingProgress++
+            log.info " requests reindexing complete"
+            callback null
+            cb null for cb in requestsIndexingCallbacks
+        else
+            requestsIndexingProgress++
+            log.info " succeeded"
+            forceIndexRequests requestsToSave, callback, i + 1
+
 
 # to use cozydb as an americano module
 # Plugin configuration: run through models/requests.(coffee|js) and save
@@ -123,3 +159,7 @@ module.exports.configure = (options, app, callback) ->
     defineRequests requestsToSave, (err) ->
         return callback err if err
         callback null
+
+        # in the background
+        forceIndexRequests requestsToSave, ->
+            log.info "Requests reindexing complete"
