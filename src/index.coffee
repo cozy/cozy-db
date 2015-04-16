@@ -2,7 +2,6 @@ log = require('printit')
     date: true
     prefix: 'Cozy DB'
 
-
 # Public: the Model constructor
 module.exports.Model = Model = require './model'
 
@@ -39,44 +38,24 @@ module.exports.getModel = (name, schema) ->
 module.exports.api = api = require './api'
 
 
-# to use cozydb as an americano module
-# Plugin configuration: run through models/requests.(coffee|js) and save
-# them all in the Cozy Data System.
-module.exports.configure = (options, app, callback) ->
-    callback ?= ->
-    if typeof options is 'string'
-        options = root: options
-
+maybeSetupPouch = (options) ->
     # if we are given a db or dbName options
     # or env variable is set
     # the app is meant to be used standalone
     if process.env.RUN_STANDALONE or options.db or options.dbName
-        try
-            Pouch = require 'pouchdb'
-            PouchModel = require './pouchmodel'
-            module.exports.CozyModel = CozyModel = PouchModel
-            if options.db
-                PouchModel.db = options.db
-            else
-                options.dbName ?= process.env.POUCHDB_NAME or 'cozy'
-                PouchModel.db = new Pouch options.dbName
+        Pouch = require 'pouchdb'
+        PouchModel = require './pouchmodel'
+        module.exports.CozyModel = CozyModel = PouchModel
+        if options.db
+            PouchModel.db = options.db
+        else
+            options.dbName ?= process.env.POUCHDB_NAME or 'cozy'
+            PouchModel.db = new Pouch options.dbName
 
-        catch err
-            console.log "Fail to init pouchdb, did you install it ?"
-            console.log err
-            return callback err
-
-    modelPath = "#{options.root}/server/models/"
-
-    api.setupModels()
-
+getRequests = (root) ->
+    modelPath = "#{root}/server/models/"
     # get the requests file
-    try requests = require modelPath + "requests"
-    catch err
-        log.raw err
-        log.error "Failed to load requests file."
-        return callback err
-
+    requests = require modelPath + "requests"
 
     # get all requests from the request file into an array
     requestsToSave = []
@@ -99,21 +78,48 @@ module.exports.configure = (options, app, callback) ->
         requestName: 'all'
         requestDefinition: defaultRequests.all
 
-    step = (i = 0) ->
-        {model, requestName, requestDefinition, optional} = requestsToSave[i]
-        log.info "#{model.getDocType()} - #{requestName} request creation..."
-        model.defineRequest requestName, requestDefinition, (err) ->
-            if err and not optional
-                log.raw err
-                log.error "A request creation failed, abandon."
-                callback err
+    return requestsToSave
 
-            else if i + 1 >= requestsToSave.length
-                log.info "requests creation completed"
-                callback null
+defineRequests = (requestsToSave, callback, i = 0) ->
+    {model, requestName, requestDefinition, optional} = requestsToSave[i]
+    log.info "#{model.getDocType()} - #{requestName} request creation..."
+    model.defineRequest requestName, requestDefinition, (err) ->
+        if err and not optional
+            log.raw err
+            log.error "A request creation failed, abandon."
+            callback err
 
-            else
-                log.info "succeeded"
-                step i + 1
-    # loop over them asynchroniously
-    step 0
+        else if i + 1 >= requestsToSave.length
+            log.info "requests creation completed"
+            callback null
+
+        else
+            log.info "succeeded"
+            defineRequests requestsToSave, callback, i + 1
+
+
+# to use cozydb as an americano module
+# Plugin configuration: run through models/requests.(coffee|js) and save
+# them all in the Cozy Data System.
+module.exports.configure = (options, app, callback) ->
+    callback ?= ->
+    if typeof options is 'string'
+        options = root: options
+
+    try maybeSetupPouch(options)
+    catch err
+        console.log "Fail to init pouchdb, did you install it ?"
+        console.log err.stack
+        return callback err
+
+    api.setupModels()
+
+    try requestsToSave = getRequests options.root
+    catch err
+        log.raw err.stack
+        log.error "Failed to load requests file."
+        return callback err
+
+    defineRequests requestsToSave, (err) ->
+        return callback err if err
+        callback null
