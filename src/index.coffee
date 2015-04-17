@@ -114,8 +114,8 @@ module.exports.waitReindexing = (callback) ->
 forceIndexRequests = (requestsToSave, callback, i = 0) ->
     {model, requestName} = requestsToSave[i]
     requestsIndexingTotal = requestsToSave.length
-    log.info """
-        #{model.getDocType()} - #{requestName} reindexing #{requestsIndexingProgress}/#{requestsIndexingTotal}"""
+    log.info "#{model.getDocType()} - #{requestName} reindexing " +
+        "#{requestsIndexingProgress}/#{requestsIndexingTotal}"
     model.request requestName, limit: 1, (err) ->
         if err and err.code is 'ECONNRESET'
             log.info " Timedout"
