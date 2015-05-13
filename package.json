@@ -1,6 +1,6 @@
 {
   "name": "cozydb",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "alternative to jugglingdb-cozy-adapter",
   "main": "lib/index.js",
   "directories": {
