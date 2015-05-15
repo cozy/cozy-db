@@ -69,7 +69,7 @@ exports.castValue = castValue = (value, typeOrOptions) ->
         value = _default value, defaultValue, []
         arrayType = type[0]
         result = []
-        if value? and typeof value is 'string'
+        if value? and typeof value isnt 'string'
             for item in value
                 result.push castValue item, arrayType
         return result
