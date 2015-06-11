@@ -116,7 +116,7 @@ forceIndexRequests = (requestsToSave, callback, i = 0) ->
     requestsIndexingTotal = requestsToSave.length
     log.info "#{model.getDocType()} - #{requestName} reindexing " +
         "#{requestsIndexingProgress}/#{requestsIndexingTotal}"
-    model.request requestName, limit: 1, (err) ->
+    model.rawRequest requestName, limit: 1, (err) ->
         if err and err.code is 'ECONNRESET'
             log.info " Timedout"
             setTimeout ->
