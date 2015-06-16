@@ -161,5 +161,5 @@ module.exports.configure = (options, app, callback) ->
         callback null
 
         # in the background
-        forceIndexRequests requestsToSave, ->
-            log.info "Requests reindexing complete"
+        reindex = forceIndexRequests.bind null, requestsToSave
+        module.exports.forceReindexing = reindex
