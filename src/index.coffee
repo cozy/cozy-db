@@ -158,8 +158,9 @@ module.exports.configure = (options, app, callback) ->
 
     defineRequests requestsToSave, (err) ->
         return callback err if err
-        callback null
 
         # in the background
         reindex = forceIndexRequests.bind null, requestsToSave
         module.exports.forceReindexing = reindex
+
+        callback null
