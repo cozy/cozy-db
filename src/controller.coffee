@@ -15,7 +15,7 @@ class Controller
     #
     # Examples
     #
-    #  Note = cozydb.getModel 'Note', SCHEMA
+    #  Note = new cozydb.getModel 'Note', SCHEMA
     #  baseController = cozydb.SimpleController
     #       model: Note
     #       reqProp: 'note'
