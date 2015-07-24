@@ -212,6 +212,12 @@ describe "Create", ->
 
     describe "Try to create a document with accent", ->
 
+        after (done) ->
+            @note?.destroy =>
+                @err = null
+                @note = null
+                done()
+
         it "When I create a document with accents", (done) ->
             data = { "title": "cool note", "content": "new note éôß" }
             Note.create data, (err, note) =>
