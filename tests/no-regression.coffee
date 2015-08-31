@@ -137,6 +137,7 @@ describe "Create", ->
         it "Then an error is returned", ->
             should.exist @err
 
+
     # CHANGE : trow when creating a doc with a fixed id
 
     # describe "Create a new Document with a given id", ->
@@ -208,6 +209,26 @@ describe "Create", ->
                 note.id.should.equal @id
                 note.content.should.equal "new note"
                 done()
+
+    describe "Try to create a document with accent", ->
+
+        after (done) ->
+            @note?.destroy =>
+                @err = null
+                @note = null
+                done()
+
+        it "When I create a document with accents", (done) ->
+            data = { "title": "cool note", "content": "new note éôß" }
+            Note.create data, (err, note) =>
+                @err = err if err
+                @note = note
+                done()
+
+        it "Then the id of the new Document should be returned", ->
+            should.not.exist @err
+            should.exist @note.id
+            @id = @note.id
 
 
     # CHANGE: createMany removed (not used in any cozy repo)

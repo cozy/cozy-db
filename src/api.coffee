@@ -128,8 +128,11 @@ class Api
     # Returns null
     sendMail: (data, callback) ->
         client.post "mail/", data, (error, response, body) ->
-            if body.error
-                callback body.error
+            if body.error?
+                if body.error.code? and body.error.code is 'postfix_unavailable'
+                    callback new Error "postfix-#{body.error.message}"
+                else
+                    callback body.error
             else if response.statusCode is 400
                 callback new Error 'Body has not all necessary attributes'
             else if response.statusCode is 500
@@ -150,8 +153,11 @@ class Api
     # Returns null
     sendMailToUser: (data, callback) ->
         client.post "mail/to-user/", data, (error, response, body) ->
-            if body.error
-                callback body.error
+            if body.error?
+                if body.error.code? and body.error.code is 'postfix_unavailable'
+                    callback new Error "postfix-#{body.error.message}"
+                else
+                    callback body.error
             else if response.statusCode is 400
                 callback new Error 'Body has not all necessary attributes'
             else if response.statusCode is 500
@@ -173,7 +179,10 @@ class Api
     sendMailFromUser: (data, callback) ->
         client.post "mail/from-user/", data, (error, response, body) ->
             if body.error?
-                callback body.error
+                if body.error.code? and body.error.code is 'postfix_unavailable'
+                    callback new Error "postfix-#{body.error.message}"
+                else
+                    callback body.error
             else if response.statusCode is 400
                 callback new Error 'Body has not all necessary attributes'
             else if response.statusCode is 500

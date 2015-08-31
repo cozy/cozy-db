@@ -68,7 +68,11 @@ exports.castValue = castValue = (value, typeOrOptions) ->
         throw WrongShemaError 'empty array' unless type[0]
         value = _default value, defaultValue, []
         arrayType = type[0]
-        return value.map (item) -> castValue item, arrayType
+        result = []
+        if value? and typeof value isnt 'string'
+            for item in value
+                result.push castValue item, arrayType
+        return result
 
     # support for (x) -> x use everywhere in cozy apps
     else if typeof type is 'function'
