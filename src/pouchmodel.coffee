@@ -191,14 +191,17 @@ pouchdbRequestsAdapter =
         {map, reduce} = request
 
         qs = map.toString()
-        qs = qs.substring 'function(doc) {'.length
+        qs = qs.substring qs.indexOf '{'
         qs = qs.substring 0, (qs.length - 1)
         stringquery = "if (doc.docType.toLowerCase() === " + \
                       "\"#{docType}\") #{qs.toString()}};"
         stringquery = stringquery.replace '\n', ''
         ### jshint ignore: start ###
         # Function is dangerous, check if we can remove it
-        map = new Function "doc", stringquery
+        try
+            map = new Function "doc", stringquery
+        catch error
+            callback new Error "Error when parsing request's body: #{error}"
         ### jshint ignore: end ###
         view = map: map.toString()
         view.reduce = reduce.toString() if reduce?
