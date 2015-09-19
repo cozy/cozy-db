@@ -238,9 +238,7 @@ pouchdbRequestsAdapter =
     requestDestroy: (name, params, callback) ->
         [params, callback] = [{}, params] if typeof(params) is "function"
         params.limit ?= 100
-        docType = @getDocType()
-
-        @request docType, name, params, (err, docs) ->
+        @request name, params, (err, docs) ->
             if err
                 callback err
             else
