@@ -20,7 +20,7 @@
     "url": "http://github.com/cozy/cozy-db"
   },
   "author": "cozy",
-  "license": "AGPL v3",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cozy/cozy-db/issues"
   },

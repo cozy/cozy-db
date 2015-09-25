@@ -27,7 +27,7 @@ Run tests with following commmand
     npm test
 
 ## LICENSE
-[AGPL v3](https://github.com/cozy/cozy-db/blob/master/LICENSE.md)
+[MIT](https://github.com/cozy/cozy-db/blob/master/LICENSE.md)
 
 ## What is Cozy?
 
