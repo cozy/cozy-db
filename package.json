@@ -1,7 +1,7 @@
 {
   "name": "cozydb",
   "version": "0.0.20",
-  "description": "alternative to jugglingdb-cozy-adapter",
+  "description": "Cozy Data System Driver",
   "main": "lib/index.js",
   "directories": {
     "test": "tests"
@@ -20,7 +20,7 @@
     "url": "http://github.com/cozy/cozy-db"
   },
   "author": "cozy",
-  "license": "MIT",
+  "license": "AGPL v3",
   "bugs": {
     "url": "https://github.com/cozy/cozy-db/issues"
   },
