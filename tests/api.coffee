@@ -16,7 +16,7 @@ describe "API Functions", ->
         user =
             docType: "user"
             email: 'test@cozycloud.cc'
-            password: 'password'
+            # password: 'password'
             timezone: 'Europe/Paris'
             tags: ['A', 'B']
 
