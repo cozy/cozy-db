@@ -13,6 +13,7 @@ pouchdbDataAdapter =
 
     # Check existence of model in the data system.
     exists: (id, callback) ->
+        id = id + '' # cast to string
         PouchdbBackedModel.db.get id, (err, doc) ->
             if err and not err.status is 404
                 callback err
@@ -22,6 +23,7 @@ pouchdbDataAdapter =
                 callback null, true
 
     find: (id, callback) ->
+        id = id + '' # cast to string
         PouchdbBackedModel.db.get id, (err, doc) ->
             if err
                 callback err
@@ -113,7 +115,7 @@ pouchdbFileAdapter =
 
     attach: (id, path, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
-        folder = pathHelpers.join "attachments", @getDocType().id
+        folder = pathHelpers.join "attachments", id
         mkdirp folder, (err) ->
             if err then callback err
             else
@@ -126,7 +128,7 @@ pouchdbFileAdapter =
                 source.pipe target
 
     get: (id, filename, callback) ->
-        folder = pathHelpers.join "attachments", @getDocType().id
+        folder = pathHelpers.join "attachments", id
         filename = pathHelpers.basename filename
         filepath = pathHelpers.join folder, filename
         source = fs.createReadStream filepath
@@ -196,6 +198,7 @@ pouchdbRequestsAdapter =
         stringquery = "if (doc.docType.toLowerCase() === " + \
                       "\"#{docType}\") #{qs.toString()}};"
         stringquery = stringquery.replace '\n', ''
+
         ### jshint ignore: start ###
         # Function is dangerous, check if we can remove it
         try
@@ -216,7 +219,7 @@ pouchdbRequestsAdapter =
                 designDoc.views = {}
             designDoc.views[name.toLowerCase()] = view
             PouchdbBackedModel.db.put designDoc, (err, designDoc) ->
-                callback()
+                callback(err)
 
     run: (name, params, callback) ->
         [params, callback] = [{}, params] if typeof(params) is "function"
@@ -231,12 +234,14 @@ pouchdbRequestsAdapter =
 
     remove: (name, callback) ->
         docType = @getDocType()
-        name = '_design/' + docType.toLowerCase() + '/' + name
-        PouchdbBackedModel.db.get name, (err, doc) ->
+        name = '_design/' + docType.toLowerCase()
+        PouchdbBackedModel.db.get name, (err, designDoc) ->
             if err
                 callback err
             else
-                PouchdbBackedModel.db.remove doc, callback
+                delete designDoc.views[name.toLowerCase()]
+                PouchdbBackedModel.db.put designDoc, (err, designDoc) ->
+                    callback err
 
     requestDestroy: (name, params, callback) ->
         [params, callback] = [{}, params] if typeof(params) is "function"

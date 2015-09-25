@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "mocha tests/*.coffee --bail --compilers coffee:coffee-script/register",
+    "test:pouch": "RUN_STANDALONE=1 mocha tests/*.coffee --bail --compilers coffee:coffee-script/register --invert --grep nopouch",
     "test:unit": "mocha tests/type_checking.coffee --bail --compilers coffee:coffee-script/register",
     "lint": "coffeelint src -f .coffeelint.json",
     "build": "coffee  --output lib --compile src",

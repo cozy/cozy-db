@@ -21,3 +21,9 @@ before_install:
     - cd ..
     - export NAME=test
     - export TOKEN=apptoken
+
+script:
+    - echo "DATA SYSTEM"
+    - npm run test
+    - echo "STANDALONE"
+    - npm run test:pouch
