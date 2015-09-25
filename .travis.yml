@@ -26,4 +26,5 @@ script:
     - echo "DATA SYSTEM"
     - npm run test
     - echo "STANDALONE"
+    - npm install pouchdb
     - npm run test:pouch
