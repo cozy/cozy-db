@@ -112,11 +112,6 @@ class Model
             callback null, objects.map (row) => new this row
 
 
-    # methods that are both static and instance
-    @index: (id, fields, callback) ->
-        @indexAdapter.index.call @, id, fields, callback
-
-
     # FILES & BINARIES FUNCTIONS
 
     # Public: attach a file to the object
@@ -397,13 +392,19 @@ class Model
     #
     # Index some fields on this model
     #
-    # fields - [{String}] fields to index
+    # fields - [{String}] fields to index (optional)
     # callback - Function ({Error} err)
     #
     # Returns null
-    index: (fields, callback) ->
+    index: (fields = null, callback) ->
+        [fields, callback] = [null, fields] if typeof fields is 'function'
         return callback NotOnNewModel() unless @id
-        @constructor.indexAdapter.index.call @constructor, @id, fields, callback
+
+        if fields then indexDef = {fields}
+        else indexDef = getIndexOptions @constructor, @
+
+        method = @constructor.indexAdapter.index
+        method.call @constructor, @id, indexDef, callback
 
     # Public: attach a file to the object
     #

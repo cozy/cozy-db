@@ -112,7 +112,7 @@ cozyIndexAdapter =
                 results = body.rows
                 callback null, results
 
-    index: (id, fields, callback) ->
+    index: (id, fieldsDefinition, callback) ->
         cb = (error, response, body) ->
             if error
                 callback error
@@ -121,7 +121,7 @@ cozyIndexAdapter =
             else
                 callback null
 
-        client.post "data/index/#{id}", fields: fields, cb, false
+        client.post "data/index/#{id}", fieldsDefinition, cb, false
 
 
 cozyFileAdapter =
