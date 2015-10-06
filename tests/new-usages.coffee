@@ -81,8 +81,11 @@ describe "Binaries", ->
 
         it "When I claim this binary", (done) ->
             @timeout 10000
-            stream = @note.getBinary TESTFILENAME, -> done()
-            stream.pipe fs.createWriteStream(TESTFILEOUT)
+            stream = @note.getBinary TESTFILENAME, ->
+            ws = fs.createWriteStream(TESTFILEOUT)
+            ws.on 'finish', done
+            ws.on 'error', done
+            stream.pipe ws
 
         it "Then I got the same file I attached before", ->
             fileStats = fs.statSync(TESTFILE)
