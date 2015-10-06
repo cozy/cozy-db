@@ -4,7 +4,6 @@ fs = require 'fs'
 pathHelpers = require 'path'
 async = require 'async'
 mkdirp = require 'mkdirp'
-remove = require 'remove'
 uuid = require 'node-uuid'
 pouch = require 'pouchdb'
 

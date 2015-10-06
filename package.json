@@ -37,10 +37,9 @@
     "should": "4.0.4"
   },
   "dependencies": {
-    "mkdirp": "0.5.0",
+    "mkdirp": "0.5.1",
     "node-uuid": "1.4.3",
-    "printit": "0.1.6",
-    "remove": "0.1.5",
-    "request-json-light": "0.5.19"
+    "printit": "0.1.9",
+    "request-json-light": "0.5.21"
   }
 }
