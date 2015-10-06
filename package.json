@@ -40,7 +40,6 @@
     "mkdirp": "0.5.1",
     "node-uuid": "1.4.3",
     "printit": "0.1.9",
-    "remove": "0.1.5",
     "request-json-light": "0.5.21"
   }
 }
