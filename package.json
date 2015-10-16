@@ -37,6 +37,7 @@
     "should": "4.0.4"
   },
   "dependencies": {
+    "async": "^1.4.2",
     "mkdirp": "0.5.1",
     "node-uuid": "1.4.3",
     "printit": "0.1.9",
