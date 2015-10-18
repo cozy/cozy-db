@@ -1,6 +1,6 @@
 {
   "name": "cozydb",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Cozy Data System Driver",
   "main": "lib/index.js",
   "directories": {
@@ -41,6 +41,6 @@
     "mkdirp": "0.5.1",
     "node-uuid": "1.4.3",
     "printit": "0.1.9",
-    "request-json-light": "0.5.21"
+    "request-json-light": "0.5.22"
   }
 }
