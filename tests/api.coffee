@@ -1,9 +1,6 @@
 should = require 'should'
 CozyAdapter = require('../src/index')
-Client = require("request-json").JsonClient
-client = new Client "http://localhost:9101/"
-client.setBasicAuth "test", "apptoken"
-
+{createDoc, deleteDoc, clearDocType} = require './helpers'
 
 describe "API Functions", ->
 
@@ -11,21 +8,27 @@ describe "API Functions", ->
     instanceID = null
 
     before (done) ->
+        CozyAdapter.configure __dirname, null, done
+
+    before clearDocType 'user'
+
+    before (done) ->
         user =
             docType: "user"
             email: 'test@cozycloud.cc'
-            password: 'password'
+            # password: 'password'
             timezone: 'Europe/Paris'
             tags: ['A', 'B']
 
-        client.post '/data/', user, (err, res, created) ->
+        createDoc user, (err, created) ->
             return done err if err
             userID = created._id
             done null
 
     after (done) ->
-        client.del "/data/#{userID}/", done
+        deleteDoc userID, done
 
+    before clearDocType 'cozyinstance'
 
     before (done) ->
 
@@ -35,16 +38,14 @@ describe "API Functions", ->
             docType: "cozyinstance"
             tags: ['B', 'C']
 
-        client.post '/data/', instance, (err, res, created) ->
+        createDoc instance, (err, created) ->
             return done err if err
             instanceID = created._id
             done null
 
     after (done) ->
-        client.del "/data/#{instanceID}/", done
+        deleteDoc instanceID, done
 
-    before (done) ->
-        CozyAdapter.configure __dirname, null, done
 
 
     describe "getCozyInstance", ->
@@ -103,7 +104,7 @@ describe "API Functions", ->
                 email.should.equal 'test@cozycloud.cc'
                 done null
 
-    describe 'getCozyTags', ->
+    describe '(nopouch) getCozyTags', ->
 
         it 'should return the dedup tags', (done) ->
 

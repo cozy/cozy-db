@@ -1,13 +1,14 @@
 {
   "name": "cozydb",
-  "version": "0.0.20",
-  "description": "alternative to jugglingdb-cozy-adapter",
+  "version": "0.1.1",
+  "description": "Cozy Data System Driver",
   "main": "lib/index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "test": "mocha tests/*.coffee --bail --compilers coffee:coffee-script/register",
+    "test:pouch": "RUN_STANDALONE=1 mocha tests/*.coffee --bail --compilers coffee:coffee-script/register --invert --grep nopouch",
     "test:unit": "mocha tests/type_checking.coffee --bail --compilers coffee:coffee-script/register",
     "lint": "coffeelint src -f .coffeelint.json",
     "build": "coffee  --output lib --compile src",
@@ -36,10 +37,10 @@
     "should": "4.0.4"
   },
   "dependencies": {
-    "mkdirp": "0.5.0",
+    "async": "1.4.2",
+    "mkdirp": "0.5.1",
     "node-uuid": "1.4.3",
-    "printit": "0.1.6",
-    "remove": "0.1.5",
-    "request-json-light": "0.5.19"
+    "printit": "0.1.9",
+    "request-json-light": "0.5.21"
   }
 }

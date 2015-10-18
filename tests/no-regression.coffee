@@ -8,6 +8,8 @@ Client = require("request-json").JsonClient
 # Schema = require('jugglingdb').Schema
 adapter = require('../src/index')
 
+{createDoc, createDocWithID, deleteDoc, clearDocType} = require './helpers'
+
 client = new Client "http://localhost:9101/"
 client.setBasicAuth "test", "apptoken"
 
@@ -15,13 +17,7 @@ TESTFILENAME = 'test.png'
 TESTFILE = path.join __dirname, TESTFILENAME
 TESTFILEOUT = path.join __dirname, 'test-get.png'
 
-Note = adapter.getModel 'Note',
-    title:
-        type: String
-    content:
-        type: String
-    author:
-        type: String
+Note = null
 
 # everything below this is left untouched from jugglingdb-cozy-adapter tests
 # CHANGES summary
@@ -31,23 +27,28 @@ Note = adapter.getModel 'Note',
 
 describe "Existence", ->
 
+    before ->
+        Note = adapter.getModel 'Note',
+            title:
+                type: String
+            content:
+                type: String
+            author:
+                type: String
+
+    before (done) -> deleteDoc '321', done
     before (done) ->
-        client.del "data/321/", (error, response, body) ->
-            data =
-                value: "created value"
-                docType: "Note"
-            client.post 'data/321/', data, (error, response, body) ->
-                done()
+        data =
+            value: "created value"
+            docType: "Note"
 
-    after (done) ->
-        client.del "data/321/", (error, response, body) ->
-            done()
+        createDocWithID data, '321', done
 
+    after (done) -> deleteDoc '321', done
 
     describe "Check Existence of a Document that does not exist in database", ->
 
-        it "When I check existence of Document with id 123", \
-                (done) ->
+        it "When I check existence of Document with id 123", (done) ->
             Note.exists 123, (err, isExist) =>
                 should.not.exist err
                 @isExist = isExist
@@ -58,8 +59,7 @@ describe "Existence", ->
 
     describe "Check Existence of a Document that does exist in database", ->
 
-        it "When I check existence of Document with id 321", \
-                (done) ->
+        it "When I check existence of Document with id 321", (done) ->
             Note.exists 321, (err, isExist) =>
                 should.not.exist err
                 @isExist = isExist
@@ -72,17 +72,15 @@ describe "Existence", ->
 describe "Find", ->
 
     before (done) ->
-        client.post 'data/321/',
+        data =
             title: "my note"
             content: "my content"
             docType: "Note"
-            , (error, response, body) ->
-                done()
+
+        createDocWithID data, '321', done
 
     after (done) ->
-        client.del "data/321/", (error, response, body) ->
-            done()
-
+        deleteDoc '321', done
 
     describe "Find a note that does not exist in database", ->
 
@@ -110,17 +108,15 @@ describe "Find", ->
 describe "Create", ->
 
     before (done) ->
-        client.post 'data/321/', {
+        data =
             title: "my note"
             content: "my content"
             docType: "Note"
-            } , (error, response, body) ->
-                done()
 
-    after (done) ->
-        client.del "data/321/", (error, response, body) ->
-            client.del "data/987/", (error, response, body) ->
-                done()
+        createDocWithID data, '321', done
+
+    after (done) -> deleteDoc '321', done
+    after (done) -> deleteDoc '987', done
 
     describe "Try to create a Document existing in Database", ->
         after ->
@@ -299,14 +295,11 @@ describe "Update", ->
             content: "my content"
             docType: "Note"
 
-        client.post 'data/321/', data, (error, response, body) ->
-            done()
+        createDocWithID data, '321', done
         @note = new Note data
 
     after (done) ->
-        client.del "data/321/", (error, response, body) ->
-            done()
-
+        deleteDoc '321', done
 
     describe "Try to Update a Document that doesn't exist", ->
         after ->
@@ -349,13 +342,11 @@ describe "Update attributes", ->
             content: "my content"
             docType: "Note"
 
-        client.post 'data/321/', data, (error, response, body) ->
-            done()
+        createDocWithID data, '321', done
         @note = new Note data
 
     after (done) ->
-        client.del "data/321/", (error, response, body) ->
-            done()
+        deleteDoc '321', done
 
 
     describe "Try to update attributes of a document that doesn't exist", ->
@@ -444,18 +435,14 @@ describe "Update attributes", ->
 
 describe "Delete", ->
     before (done) ->
-        client.post 'data/321/', {
+        data =
             title: "my note"
             content: "my content"
             docType: "Note"
-            } , (error, response, body) ->
-            done()
+        createDocWithID data, '321', done
 
-    after (done) ->
-        client.del "data/321/", (error, response, body) ->
-            client.del "data/987/", (error, response, body) ->
-                done()
-
+    after (done) -> deleteDoc '321', done
+    after (done) -> deleteDoc '987', done
 
     describe "Deletes a document that is not in Database", ->
 
@@ -528,18 +515,17 @@ fakeServer = (json, code=200, callback=null) ->
             res.end(JSON.stringify json)
 
 deleteNoteFunction = (id) ->
-    (callback) ->
-        client.del "data/#{id}/", (err) -> callback()
+    (callback) -> deleteDoc id, callback
 
-describe "Search features", ->
+describe "nopouch Search features", ->
 
     before (done) ->
-        client.post 'data/321/', {
+        data =
             title: "my note"
             content: "my content"
             docType: "Note"
-            } , (error, response, body) ->
-                done()
+
+        createDocWithID data, '321', done
 
     after (done) ->
         funcs = []
@@ -665,6 +651,8 @@ checkError = ->
         should.exist  @err
 
 describe "Requests", ->
+
+    before clearDocType 'note'
 
     before (done) ->
         async.series [

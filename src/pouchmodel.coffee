@@ -4,7 +4,6 @@ fs = require 'fs'
 pathHelpers = require 'path'
 async = require 'async'
 mkdirp = require 'mkdirp'
-remove = require 'remove'
 uuid = require 'node-uuid'
 pouch = require 'pouchdb'
 
@@ -13,6 +12,7 @@ pouchdbDataAdapter =
 
     # Check existence of model in the data system.
     exists: (id, callback) ->
+        id = id + '' # cast to string
         PouchdbBackedModel.db.get id, (err, doc) ->
             if err and not err.status is 404
                 callback err
@@ -22,6 +22,7 @@ pouchdbDataAdapter =
                 callback null, true
 
     find: (id, callback) ->
+        id = id + '' # cast to string
         PouchdbBackedModel.db.get id, (err, doc) ->
             if err
                 callback err
@@ -113,7 +114,7 @@ pouchdbFileAdapter =
 
     attach: (id, path, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
-        folder = pathHelpers.join "attachments", @getDocType().id
+        folder = pathHelpers.join "attachments", id
         mkdirp folder, (err) ->
             if err then callback err
             else
@@ -126,7 +127,7 @@ pouchdbFileAdapter =
                 source.pipe target
 
     get: (id, filename, callback) ->
-        folder = pathHelpers.join "attachments", @getDocType().id
+        folder = pathHelpers.join "attachments", id
         filename = pathHelpers.basename filename
         filepath = pathHelpers.join folder, filename
         source = fs.createReadStream filepath
@@ -191,14 +192,18 @@ pouchdbRequestsAdapter =
         {map, reduce} = request
 
         qs = map.toString()
-        qs = qs.substring 'function(doc) {'.length
+        qs = qs.substring qs.indexOf '{'
         qs = qs.substring 0, (qs.length - 1)
         stringquery = "if (doc.docType.toLowerCase() === " + \
                       "\"#{docType}\") #{qs.toString()}};"
         stringquery = stringquery.replace '\n', ''
+
         ### jshint ignore: start ###
         # Function is dangerous, check if we can remove it
-        map = new Function "doc", stringquery
+        try
+            map = new Function "doc", stringquery
+        catch error
+            callback new Error "Error when parsing request's body: #{error}"
         ### jshint ignore: end ###
         view = map: map.toString()
         view.reduce = reduce.toString() if reduce?
@@ -213,7 +218,7 @@ pouchdbRequestsAdapter =
                 designDoc.views = {}
             designDoc.views[name.toLowerCase()] = view
             PouchdbBackedModel.db.put designDoc, (err, designDoc) ->
-                callback()
+                callback(err)
 
     run: (name, params, callback) ->
         [params, callback] = [{}, params] if typeof(params) is "function"
@@ -228,19 +233,19 @@ pouchdbRequestsAdapter =
 
     remove: (name, callback) ->
         docType = @getDocType()
-        name = '_design/' + docType.toLowerCase() + '/' + name
-        PouchdbBackedModel.db.get name, (err, doc) ->
+        name = '_design/' + docType.toLowerCase()
+        PouchdbBackedModel.db.get name, (err, designDoc) ->
             if err
                 callback err
             else
-                PouchdbBackedModel.db.remove doc, callback
+                delete designDoc.views[name.toLowerCase()]
+                PouchdbBackedModel.db.put designDoc, (err, designDoc) ->
+                    callback err
 
     requestDestroy: (name, params, callback) ->
         [params, callback] = [{}, params] if typeof(params) is "function"
         params.limit ?= 100
-        docType = @getDocType()
-
-        @request docType, name, params, (err, docs) ->
+        @request name, params, (err, docs) ->
             if err
                 callback err
             else
