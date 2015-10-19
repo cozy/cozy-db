@@ -170,8 +170,12 @@ cozyRequestsAdapter =
         docType = @getDocType()
         {map, reduce} = request
 
+        if reduce?
+            reduce = reduce.toString()
+            reduce = "function #{reduce.slice reduce.indexOf '('}"
+
         view =
-            reduce: reduce?.toString()
+            reduce: reduce
             map: """
                 function (doc) {
                   if (doc.docType.toLowerCase() === "#{docType}") {
