@@ -107,6 +107,7 @@ describe "API Functions", ->
     describe '(nopouch) getCozyTags', ->
 
         it 'should return the dedup tags', (done) ->
+            @timeout 3000
 
             CozyAdapter.api.getCozyTags (err, tags) ->
                 return done err if err
