@@ -170,7 +170,7 @@ cozyRequestsAdapter =
         docType = @getDocType()
         {map, reduce} = request
 
-        if reduce?
+        if reduce? and typeof reduce is 'function'
             reduce = reduce.toString()
             reduce = "function #{reduce.slice reduce.indexOf '('}"
 
