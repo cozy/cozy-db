@@ -170,9 +170,13 @@ cozyRequestsAdapter =
         docType = @getDocType()
         {map, reduce} = request
 
+        # transforms all functions in anonymous functions
+        # function named(a, b){...} --> function (a, b){...}
+        # function (a, b){...} --> function (a, b){...}
         if reduce? and typeof reduce is 'function'
             reduce = reduce.toString()
-            reduce = "function #{reduce.slice reduce.indexOf '('}"
+            reduceArgsAndBody = reduce.slice reduce.indexOf '('
+            reduce = "function #{reduceArgsAndBody}"
 
         view =
             reduce: reduce
