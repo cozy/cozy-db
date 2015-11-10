@@ -114,7 +114,11 @@ class Model
     @search: (query, callback) ->
         @indexAdapter.search.call @, query, (err, objects) =>
             return callback err if err
-            callback null, objects.map (row) => new this row
+            results = objects.map (row) => new this row
+            results.totalHits = objects.totalHits
+            results.facets = objects.facets
+            results.hits = objects.hits
+            callback null, results
 
 
     # FILES & BINARIES FUNCTIONS
