@@ -486,7 +486,7 @@ createNoteFunction = (title, content, author) ->
             author: authorId
 
         Note.create data, (err, note) ->
-            return done err if err
+            return callback err if err
             ids.push note.id
             dragonNoteId = note.id if title is "Note 02"
 
@@ -543,26 +543,14 @@ describe "nopouch Search features", ->
                 done()
 
         it "When given I index four notes", (done) ->
+            @timeout 3000
             async.series [
                 createNoteFunction "Note 01", "little stories begin"
                 createNoteFunction "Note 02", "great dragons are coming"
                 createNoteFunction "Note 03", "small hobbits are afraid"
                 createNoteFunction "Note 04", "such as humans"
             ], =>
-                data = ids: [dragonNoteId]
-                @indexer = fakeServer data, 200, (url, body) ->
-                    if url is '/index/'
-                        should.exist body.fields
-                        should.exist body.doc
-                        should.exist body.doc.docType
-                        200
-                    else if url is '/search/'
-                        should.exist body.query
-                        body.query.should.equal "dragons"
-                        200
-                    else 204
-                @indexer.listen 9092
-                setTimeout done, 500
+                setTimeout done, 2000
 
 
         it "And I send a request to search the notes containing dragons", \
@@ -570,7 +558,6 @@ describe "nopouch Search features", ->
             Note.search "dragons", (err, notes) =>
                 return done err if err
                 @notes = notes
-                @indexer.close()
                 done()
 
         it "Then result is the second note I created", ->
