@@ -337,6 +337,13 @@ class Model
         [params, callback] = [{}, params] if typeof(params) is "function"
         @requestDestroy 'all', params, callback
 
+    # Public : register the fullTextIndex definition for this model
+    #
+    # Returns null
+    @registerIndexDefinition: (callback) ->
+        if @fullTextIndex
+            @indexAdapter.registerIndexDefinition.call @, callback
+        else setImmediate callback
 
     # instance methods
 

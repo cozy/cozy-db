@@ -102,7 +102,7 @@ cozyIndexAdapter =
 
     search: (query, callback) ->
         docType = @getDocType()
-        data = query: query
+        data = if typeof query is 'string' then query: query else query
         client.post "data/search/#{docType}", data, (error, response, body) ->
             if error
                 callback error
@@ -111,6 +111,16 @@ cozyIndexAdapter =
             else
                 results = body.rows
                 callback null, results
+
+    registerIndexDefinition: (callback) ->
+        docType = @getDocType()
+        definitions = @fullTextIndex
+
+        unless definitions
+            setImmediate callback
+        else
+            url = "data/index/define/#{docType}"
+            client.post url, definitions, callback
 
     index: (id, fields, callback) ->
         cb = (error, response, body) ->
@@ -121,7 +131,7 @@ cozyIndexAdapter =
             else
                 callback null
 
-        client.post "data/index/#{id}", fields: fields, cb, false
+        client.post "data/index/#{id}", {fields}, cb, false
 
 
 cozyFileAdapter =
