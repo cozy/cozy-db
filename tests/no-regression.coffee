@@ -661,7 +661,6 @@ describe "Requests", ->
             ids = []
             done()
 
-    describe "index", ->
     describe "View creation", ->
 
         describe "Creation of the first view + design document creation", ->
@@ -691,7 +690,7 @@ describe "Requests", ->
             checkError()
 
 
-        describe "Access to an existing view : every_notes", (done) ->
+        describe "Access to an existing view : every_notes", ->
 
             it "When I send a request to access view every_docs", (done) ->
                 delete @err
@@ -702,7 +701,7 @@ describe "Requests", ->
             it "Then I should have 4 documents returned", ->
                 @notes.should.have.length 4
 
-        describe "Access to a doc from a view : every_notes", (done) ->
+        describe "Access to a doc from a view : every_notes", ->
 
             it "When I send a request to access doc 3 from every_docs", \
                     (done) ->
