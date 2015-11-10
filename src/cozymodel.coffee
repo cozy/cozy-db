@@ -110,6 +110,9 @@ cozyIndexAdapter =
                 callback new Error util.inspect body
             else
                 results = body.rows
+                results.totalHits = body.totalHits
+                results.facets = body.facets
+                results.hits = body.hits
                 callback null, results
 
     registerIndexDefinition: (callback) ->
