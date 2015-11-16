@@ -68,7 +68,6 @@ getRequests = (root) ->
     models = []
 
     # get all indexes defined in models into an array
-    modelFiles =
     for file in fs.readdirSync modelPath
         try
             model = require modelPath + file

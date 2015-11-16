@@ -413,7 +413,7 @@ class Model
     #
     # Returns null
     index: (fields, callback) ->
-        deprecated("Model::index, it is not necessary with DS > ")
+        deprecated("Model::index is not necessary with DS > v2.1.0")
         return callback NotOnNewModel() unless @id
         @constructor.indexAdapter.index.call @constructor, @id, fields, callback
 
