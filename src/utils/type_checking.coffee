@@ -86,7 +86,7 @@ exports.castValue = castValue = (value, typeOrOptions) ->
 
 
 reportCastIgnore = process.env.NODE_ENV not in ['production', 'test'] or
-                   process.end.NO_CAST_WARNING
+                   process.env.NO_CAST_WARNING
 
 exports.castObject = castObject = (raw, schema, target = {}, name) ->
 
