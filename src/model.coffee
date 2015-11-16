@@ -1,9 +1,14 @@
 util = require 'util'
 fs = require 'fs'
 
-deprecated = ->
-    if process.env.NODE_ENV not in ['test', 'production']
-        console.log new Error('deprecated').stack
+deprecated = (what) ->
+    deprecated.alreadySaid ?= []
+    if process.env.NODE_ENV not in ['test', 'production'] and
+    what not in deprecated.alreadySaid
+        deprecated.alreadySaid.push what
+        lines = new Error().stack.split("\n")[2..4].join '\n'
+        console.log "Deprecated #{what}\n#{lines}"
+
 
 _wrapCallback = (that, changes, callback) ->
     (err, data) ->
@@ -109,12 +114,11 @@ class Model
     @search: (query, callback) ->
         @indexAdapter.search.call @, query, (err, objects) =>
             return callback err if err
-            callback null, objects.map (row) => new this row
-
-
-    # methods that are both static and instance
-    @index: (id, fields, callback) ->
-        @indexAdapter.index.call @, id, fields, callback
+            results = objects.map (row) => new this row
+            results.totalHits = objects.totalHits
+            results.facets = objects.facets
+            results.hits = objects.hits
+            callback null, results
 
 
     # FILES & BINARIES FUNCTIONS
@@ -157,7 +161,7 @@ class Model
     #
     # Returns null
     @saveFile: (id, path, filePath, callback) ->
-        deprecated()
+        deprecated("Model.saveFile, use streams instead")
         @fileAdapter.get id, path, filePath, (err, res) ->
             return callback err if err
             res.pipe writeStream = fs.createWriteStream filePath
@@ -212,7 +216,7 @@ class Model
     #
     # Returns null
     @saveBinary: (id, path, filePath, callback) ->
-        deprecated()
+        deprecated("Model.saveBinary, use streams instead")
         @binaryAdapter.get id, path, filePath, (err, res) ->
             return callback err if err
             res.pipe writeStream = fs.createWriteStream filePath
@@ -337,6 +341,13 @@ class Model
         [params, callback] = [{}, params] if typeof(params) is "function"
         @requestDestroy 'all', params, callback
 
+    # Public : register the fullTextIndex definition for this model
+    #
+    # Returns null
+    @registerIndexDefinition: (callback) ->
+        if @fullTextIndex
+            @indexAdapter.registerIndexDefinition.call @, callback
+        else setImmediate callback
 
     # instance methods
 
@@ -402,6 +413,7 @@ class Model
     #
     # Returns null
     index: (fields, callback) ->
+        deprecated("Model::index is not necessary with DS > v2.1.0")
         return callback NotOnNewModel() unless @id
         @constructor.indexAdapter.index.call @constructor, @id, fields, callback
 

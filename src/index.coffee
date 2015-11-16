@@ -2,6 +2,9 @@ log = require('printit')
     date: true
     prefix: 'Cozy DB'
 
+fs = require 'fs'
+async = require 'async'
+
 # Public: the Model constructor
 module.exports.Model = Model = require './model'
 
@@ -54,11 +57,24 @@ maybeSetupPouch = (options) ->
 
 getRequests = (root) ->
     modelPath = "#{root}/server/models/"
+    requestFile = modelPath + "requests"
     # get the requests file
-    requests = require modelPath + "requests"
+    try requests = require requestFile
+    catch err
+        console.log "Could not load #{requestFile}"
+        requests = {}
+
+    requestsToSave = []
+    models = []
+
+    # get all indexes defined in models into an array
+    for file in fs.readdirSync modelPath
+        try
+            model = require modelPath + file
+            if model?.prototype instanceof CozyModel
+                models.push model
 
     # get all requests from the request file into an array
-    requestsToSave = []
     for docType, requestDefinitions of requests
         model = require modelPath + docType
 
@@ -78,24 +94,31 @@ getRequests = (root) ->
         requestName: 'all'
         requestDefinition: defaultRequests.all
 
-    return requestsToSave
+    return {models, requestsToSave}
 
-defineRequests = (requestsToSave, callback, i = 0) ->
-    {model, requestName, requestDefinition, optional} = requestsToSave[i]
-    log.info "#{model.getDocType()} - #{requestName} request creation..."
-    model.defineRequest requestName, requestDefinition, (err) ->
-        if err and not optional
-            log.raw err
-            log.error "A request creation failed, abandon."
-            callback err
+defineRequests = (requestsToSave, callback) ->
+    async.eachSeries requestsToSave, (request, next) ->
+        {model, requestName, requestDefinition, optional} = request
+        log.info "#{model.getDocType()} - #{requestName} request creation..."
+        model.defineRequest requestName, requestDefinition, (err) ->
+            if err and not optional
+                log.raw err
+                log.error """
+                    A request creation failed, abandon. Are you sure the DS is
+                    started ?
+                """
+                next err
+            else
+                log.info "succeeded"
+                next null
 
-        else if i + 1 >= requestsToSave.length
-            log.info "requests creation completed"
-            callback null
+    , callback
 
-        else
-            log.info "succeeded"
-            defineRequests requestsToSave, callback, i + 1
+defineIndexes = (models, callback) ->
+    async.eachSeries models, (model, next) ->
+        log.info "#{model.getDocType()} - define indexes..."
+        model.registerIndexDefinition callback
+    , callback
 
 requestsIndexingProgress = 0
 requestsIndexingTotal = 1
@@ -150,7 +173,7 @@ module.exports.configure = (options, app, callback) ->
 
     api.setupModels()
 
-    try requestsToSave = getRequests options.root
+    try {requestsToSave, models} = getRequests options.root
     catch err
         log.raw err.stack
         log.error "Failed to load requests file."
@@ -159,8 +182,10 @@ module.exports.configure = (options, app, callback) ->
     defineRequests requestsToSave, (err) ->
         return callback err if err
 
-        # in the background
-        reindex = forceIndexRequests.bind null, requestsToSave
-        module.exports.forceReindexing = reindex
+        defineIndexes models, (err) ->
+            return callback err if err
 
-        callback null
+            reindex = forceIndexRequests.bind null, requestsToSave
+            module.exports.forceReindexing = reindex
+
+            callback null

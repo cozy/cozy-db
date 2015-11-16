@@ -3,6 +3,7 @@ adapter = require('../src/index')
 fs = require 'fs'
 path = require 'path'
 should = require 'should'
+helpers = require './helpers'
 
 TESTFILENAME = 'test.png'
 TESTFILE = path.join __dirname, TESTFILENAME
@@ -12,7 +13,7 @@ Client = require("request-json").JsonClient
 client = new Client "http://localhost:9101/"
 client.setBasicAuth "test", "apptoken"
 
-Note = null
+Note = TestModel = null
 
 describe "Allow subclassing of Models", ->
 
@@ -111,3 +112,62 @@ describe "Binaries", ->
 
         it "Then I got an error", ->
             should.exist @err
+
+### INDEX DEFINTION ###
+describe "Index definition (nopouch)", ->
+
+    before helpers.clearDocType 'indexdefinition'
+    before helpers.clearDocType 'note'
+    before helpers.clearDocType 'testmodel'
+    before (done) ->
+        client.del "data/index/clear-all/", done
+
+    it "When the adapter configure", (done) ->
+        adapter = require('../src/index')
+        adapter.configure __dirname, null, done
+
+    it "Then an index definition has been registered in the DS", (done) ->
+        url = 'request/indexdefinition/all/'
+        options = include_docs: true
+        client.post url, options, (err, res, body) ->
+            for row in body when row.doc.targetDocType is 'testmodel'
+                return done null
+
+            return done new Error 'no indexdefinition for testmodel'
+
+    it "And wait a few seconds", (done) ->
+        @timeout 4000
+        setTimeout done, 3000
+
+    it "And I can use it to search (create note)", (done) ->
+        TestModel = require './server/models/testmodel'
+        data = title: 'Hello world', content: 'A cool testcase'
+        TestModel.create data, (err, created) =>
+            @id = created.id
+            return done err if err
+            setTimeout done, 100
+
+    it "And I can use it to search (search note)", (done) ->
+        TestModel.search 'hello', (err, result) =>
+            return done err if err
+            result[0].id.should.equal @id
+            done null
+
+    it "I can also register an index manually (no americano) ", (done) ->
+
+        class Note extends adapter.CozyModel
+            @schema:
+                title: String
+                content: String
+                author: String
+
+            @fullTextIndex:
+                title:
+                    nGramLength: {gte: 1, lte: 2},
+                    stemming: true, weight: 5, fieldedSearch: true
+                content:
+                    nGramLength: 1,
+                    stemming: true, weight: 1, fieldedSearch: true
+
+
+        Note.registerIndexDefinition done
