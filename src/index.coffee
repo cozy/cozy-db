@@ -117,7 +117,7 @@ defineRequests = (requestsToSave, callback) ->
 defineIndexes = (models, callback) ->
     async.eachSeries models, (model, next) ->
         log.info "#{model.getDocType()} - define indexes..."
-        model.registerIndexDefinition callback
+        model.registerIndexDefinition next
     , callback
 
 requestsIndexingProgress = 0
