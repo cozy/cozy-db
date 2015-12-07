@@ -19,7 +19,7 @@ errorMaker = (error, response, body, expectedCode) ->
         return null
 
 # monkeypath
-FormData = require 'request-json-light/node_modules/form-data'
+FormData = require 'form-data'
 _old = FormData::pipe
 FormData::pipe = (request) ->
     length = request.getHeader 'Content-Length'
