@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "async": "1.4.2",
+    "form-data": "1.0.0-rc3",
     "mkdirp": "0.5.1",
     "node-uuid": "1.4.3",
     "printit": "0.1.9",
