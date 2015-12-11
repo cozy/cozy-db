@@ -73,14 +73,14 @@ class Controller
     listAll: (req, res, next) =>
         @model.all (err, items) ->
             return next err if err
-            res.send 200, items
+            res.status(200).send items
 
     # Public: express handler to send the @reqProp model
     #
     #
     # Returns null
     send: (req, res, next) =>
-        res.send 200, req[@reqProp]
+        res.status(200).send req[@reqProp]
 
     # Public: express handler to update the @reqParamID model with request body
     # (dont get the model before update)
@@ -95,7 +95,7 @@ class Controller
         changes = req.body
         @model.updateAttributes id, req.body, (err, updated) ->
             return next err if err
-            res.send 200, updated
+            res.status(200).send updated
             next()
 
     # Public: express handler to destroy the @reqParamID model
@@ -110,7 +110,7 @@ class Controller
         id = req.params[@reqParamID]
         @model.destroy id, (err) ->
             return next err if err
-            res.send 204, 'Deleted'
+            res.status(204).send 'Deleted'
             next()
 
 
