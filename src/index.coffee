@@ -23,8 +23,17 @@ emit = ->
 module.exports.defaultRequests = defaultRequests =
     all: (doc) -> emit doc._id, doc
     tags: (doc) -> emit(tag, doc) for tag in doc.tags or []
-    by: (field) ->
-        ((doc) -> emit doc.FIELD, doc).toString().replace 'FIELD', field
+    by: (fields...) ->
+        if fields.length is 0
+            throw new Error('There should be at least one parameter')
+        if fields.length is 1
+            key = "doc.#{fields}"
+        else
+            key = fields.map (field) -> "doc.#{field}"
+                        .join(', ')
+            key = "[#{key}]"
+
+        ((doc) -> emit KEY, doc).toString().replace 'KEY', key
 
 
 module.exports.getModel = (name, schema) ->
