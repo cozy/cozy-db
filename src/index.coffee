@@ -3,6 +3,7 @@ log = require('printit')
     prefix: 'Cozy DB'
 
 fs = require 'fs'
+path = require 'path'
 async = require 'async'
 
 # Public: the Model constructor
@@ -55,9 +56,8 @@ maybeSetupPouch = (options) ->
             options.dbName ?= process.env.POUCHDB_NAME or 'cozy'
             PouchModel.db = new Pouch options.dbName
 
-getRequests = (root) ->
-    modelPath = "#{root}/server/models/"
-    requestFile = modelPath + "requests"
+getRequests = (modelsPath) ->
+    requestFile = path.join(modelsPath, "requests")
     # get the requests file
     try requests = require requestFile
     catch err
@@ -68,15 +68,15 @@ getRequests = (root) ->
     models = []
 
     # get all indexes defined in models into an array
-    for file in fs.readdirSync modelPath
+    for file in fs.readdirSync(modelsPath)
         try
-            model = require modelPath + file
+            model = require path.join(modelsPath, file)
             if model?.prototype instanceof CozyModel
                 models.push model
 
     # get all requests from the request file into an array
     for docType, requestDefinitions of requests
-        model = require modelPath + docType
+        model = require path.join(modelsPath, docType)
 
         for requestName, requestDefinition of requestDefinitions
             requestsToSave.push {model, requestName, requestDefinition}
@@ -162,8 +162,20 @@ forceIndexRequests = (requestsToSave, callback, i = 0) ->
 # them all in the Cozy Data System.
 module.exports.configure = (options, app, callback) ->
     callback ?= ->
+    defaultRoot = process.cwd()
+    defaultModelsPaths = "server/models/"
     if typeof options is 'string'
-        options = root: options
+        options =
+            root: options
+            modelsPath: "#{options}/#{defaultModelsPaths}"
+    else if typeof options is 'object'
+        options.root ?= defaultRoot
+        options.modelsPath ?= "#{options.root}/#{defaultModelsPaths}"
+    else
+        options =
+            root: defaultRoot
+            modelsPath: "#{defaultRoot}/#{defaultModelsPaths}"
+
 
     try maybeSetupPouch(options)
     catch err
@@ -173,7 +185,7 @@ module.exports.configure = (options, app, callback) ->
 
     api.setupModels()
 
-    try {requestsToSave, models} = getRequests options.root
+    try {requestsToSave, models} = getRequests options.modelsPath
     catch err
         log.raw err.stack
         log.error "Failed to load requests file."
