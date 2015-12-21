@@ -1,4 +1,5 @@
 adapter = require '../src/index'
+should = require 'should'
 
 describe "Default requests generator", ->
 
@@ -12,7 +13,6 @@ function (doc) {
 
     describe "by(string)", ->
         it "should return a map function with one parameter for emit", ->
-            console.log adapter.defaultRequests.by('aField')
             adapter.defaultRequests.by('aField').should.equal """
 function (doc) {
         return emit(doc.aField, doc);
