@@ -82,6 +82,7 @@ class Model
     # Returns null
     @save: (id, data, callback) ->
         @adapter.save id, data, (err, attributes) =>
+            return callback err if err?
             callback null, new this(attributes)
 
     # Public: change some attributes of the model (PATCH)
@@ -93,6 +94,7 @@ class Model
     # Returns null
     @updateAttributes: (id, data, callback) ->
         @adapter.updateAttributes id, data, (err, updated) =>
+            return callback err if err?
             callback null, new this(updated)
 
 
