@@ -27,20 +27,20 @@
   "homepage": "https://github.com/cozy/cozy-db",
   "devDependencies": {
     "biscotto": "gjtorikian/biscotto#992d826f87791ed267b456b822861d4b2b10d9ba",
-    "coffee-jshint": "0.2.2",
-    "coffee-script": "1.8.0",
-    "coffeelint": "1.8.1",
-    "lodash.isequal": "2.4.1",
+    "coffee-jshint": "0.2.3",
+    "coffee-script": "1.10.0",
+    "coffeelint": "1.14.2",
+    "lodash.isequal": "3.0.4",
     "mocha": "1.21.5",
-    "request-json": "0.5.0",
+    "request-json": "0.5.5",
     "should": "4.0.4"
   },
   "dependencies": {
-    "async": "1.4.2",
+    "async": "1.5.1",
     "form-data": "1.0.0-rc3",
     "mkdirp": "0.5.1",
-    "node-uuid": "1.4.3",
-    "printit": "0.1.9",
+    "node-uuid": "1.4.7",
+    "printit": "0.1.15",
     "request-json-light": "0.5.22"
   }
 }
