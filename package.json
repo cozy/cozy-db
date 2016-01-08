@@ -1,6 +1,6 @@
 {
   "name": "cozydb",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Cozy Data System Driver",
   "main": "lib/index.js",
   "directories": {
