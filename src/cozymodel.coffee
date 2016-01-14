@@ -1,6 +1,7 @@
 client = require './utils/client'
 Model = require './model'
 util = require 'util'
+simplebufferstream = require 'simple-bufferstream'
 LaterStream = require './utils/later_stream'
 
 # utility functions
@@ -137,12 +138,33 @@ cozyIndexAdapter =
         client.post "data/index/#{id}", {fields}, cb, false
 
 
+# FormData and thus request-json-light accept only a few things for sending
+# files: strings (as a filenames) and some very specific streams (like those
+# of fs.createReadableStream). Sometimes, we have buffers to send and we use
+# a work-around to make them look like a stream from fs.createReadableStream.
+#
+# See https://github.com/form-data/form-data/pull/70
+fixForBuffer = (file) ->
+    if Buffer.isBuffer file
+        stream = simplebufferstream file
+        stream.fd = true
+        stream.start = 0
+        if process.version.match /^v0\.10\./
+            stream.end = Buffer.byteLength file.toString('utf8')
+        else
+            stream.end = Buffer.byteLength file
+        return stream
+    else
+        return file
+
+
 cozyFileAdapter =
 
-    attach: (id, path, data, callback) ->
+    attach: (id, file, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/attachments/"
-        client.sendFile urlPath, path, data, (error, response, body) ->
+        file = fixForBuffer file
+        client.sendFile urlPath, file, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
 
@@ -159,10 +181,11 @@ cozyFileAdapter =
 
 cozyBinaryAdapter =
 
-    attach: (id, path, data, callback) ->
+    attach: (id, file, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/binaries/"
-        client.sendFile urlPath, path, data, (error, response, body) ->
+        file = fixForBuffer file
+        client.sendFile urlPath, file, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
 
