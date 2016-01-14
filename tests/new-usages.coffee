@@ -68,9 +68,9 @@ describe "Binaries", ->
         client.del "data/321/", (error, response, body) ->
             done()
 
-    describe "Add an binary", ->
+    describe "Add a binary", ->
 
-        it "When I add an binary", (done) ->
+        it "When I add a binary", (done) ->
             @note.attachBinary TESTFILE, (err) =>
                 @err = err
                 done()
@@ -78,7 +78,7 @@ describe "Binaries", ->
         it "Then no error is returned", ->
             should.not.exist @err
 
-    describe "Retrieve an binary", ->
+    describe "Retrieve a binary", ->
 
         it "When I claim this binary", (done) ->
             @timeout 10000
@@ -93,7 +93,7 @@ describe "Binaries", ->
             resultStats = fs.statSync(TESTFILEOUT)
             resultStats.size.should.equal fileStats.size
 
-    describe "Remove an binary", ->
+    describe "Remove a binary", ->
 
         it "When I remove this binary", (done) ->
             @note.removeBinary TESTFILENAME, (err) =>
@@ -112,6 +112,41 @@ describe "Binaries", ->
 
         it "Then I got an error", ->
             should.exist @err
+
+
+describe "Binaries, from a Buffer", ->
+
+    before (done) ->
+        @note = new Note id: 321
+        data =
+            title: "my note"
+            content: "my content"
+            docType: "Note"
+        client.post 'data/321/', data, (error, response, body) ->
+            done()
+
+    after (done) ->
+        client.del "data/321/", (error, response, body) ->
+            done()
+
+    describe "Add a binary", ->
+
+        it "When I add a binary from a buffer", (done) ->
+            buffer = fs.readFileSync TESTFILE
+            Buffer.isBuffer(buffer).should.be.ok
+            @note.attachBinary buffer, name: TESTFILENAME, (err) =>
+                @err = err
+                done()
+
+        it "Then no error is returned", ->
+            should.not.exist @err
+
+        it "And I can remove this binary", (done) ->
+            @timeout 5000
+            @note.removeBinary TESTFILENAME, (err) ->
+                should.not.exist err
+                done()
+
 
 ### INDEX DEFINTION ###
 describe "Index definition (nopouch)", ->
