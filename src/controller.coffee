@@ -153,13 +153,14 @@ class Controller
     #  app.get 'contact/:contactid.jpg',
     sendAttachment: (options = {}) =>
         return handler = (req, res, next) =>
-            name = getFileName options
-            id = req.params[@reqParamID]
-            stream = @model.getFile id, name, (err) -> next err if err
-            stream.pipefilter = copySafeHeaders
-            req.on 'close', -> stream.abort()
-            res.on 'close', -> stream.abort()
-            stream.pipe res
+            if res.connection and not res.connection.destroyed
+                name = getFileName options
+                id = req.params[@reqParamID]
+                stream = @model.getFile id, name, (err) -> next err if err
+                stream.pipefilter = copySafeHeaders
+                req.on 'close', -> stream.abort()
+                res.on 'close', -> stream.abort()
+                stream.pipe res
 
     # Public: express handler to send a file
     # (no need for a {::find} or {::fetch} before)
@@ -173,13 +174,14 @@ class Controller
     #  app.get 'contact/:contactid.jpg',
     sendBinary: (options = {})->
         return handler = (req, res, next) =>
-            name = getFileName options
-            id = req.params[@reqParamID]
-            stream = @model.getBinary id, name, (err) -> next err if err
-            stream.pipefilter = copySafeHeaders
-            req.on 'close', -> stream.abort()
-            res.on 'close', -> stream.abort()
-            stream.pipe res
+            if res.connection and not res.connection.destroyed
+                name = getFileName options
+                id = req.params[@reqParamID]
+                stream = @model.getBinary id, name, (err) -> next err if err
+                stream.pipefilter = copySafeHeaders
+                req.on 'close', -> stream.abort()
+                res.on 'close', -> stream.abort()
+                stream.pipe res
 
 
 module.exports = Controller
