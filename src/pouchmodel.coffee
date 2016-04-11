@@ -100,7 +100,7 @@ pouchdbDataAdapter =
             else
                 PouchdbBackedModel.db.remove doc, callback
 
-# @todo implement me using pouchdb-quick-search
+# @todo Implement me using pouchdb-quick-search
 pouchdbIndexAdapter =
 
     search: (query, callback) ->
@@ -139,6 +139,7 @@ pouchdbFileAdapter =
         folder = pathHelpers.join "attachments", id
         filepath = pathHelpers.join folder, filename
         fs.unlink filepath, callback
+
 
 pouchdbBinaryAdapter =
 
@@ -184,6 +185,7 @@ pouchdbBinaryAdapter =
         folder = pathHelpers.join "attachments", id
         filepath = pathHelpers.join folder, filename
         fs.unlink filepath, callback
+
 
 pouchdbRequestsAdapter =
 
@@ -274,3 +276,4 @@ module.exports = class PouchdbBackedModel extends Model
             @schema.docType = String
             @schema.binaries = Object
         super
+

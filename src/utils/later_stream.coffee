@@ -56,6 +56,7 @@ module.exports = class LaterStream extends EventEmitter
         else if @aborted
             stream.req.abort()
             drainStream stream
+
         else
             @trueStream = stream
             @emit 'ready', @trueStream
@@ -65,3 +66,4 @@ module.exports = class LaterStream extends EventEmitter
             for dest in @pipeDests
                 @pipefilter? @trueStream, dest
                 @trueStream.pipe dest
+

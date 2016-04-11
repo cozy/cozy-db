@@ -12,3 +12,4 @@ else
     client.setBasicAuth Math.random().toString(36), "token"
 
 module.exports = client
+

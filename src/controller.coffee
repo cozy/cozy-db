@@ -1,9 +1,11 @@
 {NotFound, DSError} = require './utils/errors'
 
+
 # Public: minimalist convenience controller
 class Controller
 
-    # Public: create a new controller from a model and params
+
+    # Public: Create a new handler from a model and params.
     #
     # options - {Object} options
     #       :model - {String} model to be used
@@ -15,7 +17,10 @@ class Controller
     #
     # Examples
     #
-    #  Note = new cozydb.getModel 'Note', SCHEMA
+    #  Note = new cozydb.getModel 'Note',
+    #      title: String
+    #      content: String
+    #
     #  baseController = cozydb.SimpleController
     #       model: Note
     #       reqProp: 'note'
@@ -27,8 +32,8 @@ class Controller
 
 
 
-    # Public: express handler to be link a model to the request
-    # set a req[@reqProp] with the model found from the param id.
+    # Public: Express handler to link a model to the request.
+    # Set a req[@reqProp] with the model found from the param id.
     # You should use this or {::find} but not both
     #
     # Returns null
@@ -43,9 +48,10 @@ class Controller
             req[@reqProp] = found
             next()
 
-    # Public: express handler to link a model to the request
-    # set a req[@reqProp] with the model found from the param @reqParamID
-    # You should use this or {::fetch} but not both
+
+    # Public: Express handler to link a model to the request.
+    # Set a req[@reqProp] with the model found from the param @reqParamID.
+    # You should use this or {::fetch} but not both.
     #
     # Returns null
     #
@@ -63,7 +69,8 @@ class Controller
             req[@reqProp] = found
             next()
 
-    # Public: express handler to send the result of request 'all'
+
+    # Public: Express controller to send the result of request 'all'
     #
     # Returns null
     #
@@ -75,15 +82,17 @@ class Controller
             return next err if err
             res.send 200, items
 
-    # Public: express handler to send the @reqProp model
+
+    # Public: Express controller to send the @reqProp model
     #
     #
     # Returns null
     send: (req, res, next) =>
         res.send 200, req[@reqProp]
 
-    # Public: express handler to update the @reqParamID model with request body
-    # (dont get the model before update)
+
+    # Public: express controller to update the @reqParamID model with request
+    # body (dont get the model before update)
     #
     # Returns null
     #
@@ -98,7 +107,8 @@ class Controller
             res.send 200, updated
             next()
 
-    # Public: express handler to destroy the @reqParamID model
+
+    # Public: express controller to destroy the @reqParamID model
     # (dont get the model before destroy)
     #
     # Returns null
@@ -140,7 +150,7 @@ class Controller
                 You should set only one of reqParamFilename or filename
                 """
 
-    # Public: express handler to send a file
+    # Public: express controller to send a file
     # (no need for a {::find} or {::fetch} before)
     #
     # options -
@@ -161,7 +171,8 @@ class Controller
             res.on 'close', -> stream.abort()
             stream.pipe res
 
-    # Public: express handler to send a file
+
+    # Public: Express controller to send a file as response.
     # (no need for a {::find} or {::fetch} before)
     #
     # options -
