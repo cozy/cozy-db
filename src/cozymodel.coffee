@@ -1,6 +1,7 @@
 client = require './utils/client'
 Model = require './model'
 util = require 'util'
+simplebufferstream = require 'simple-bufferstream'
 LaterStream = require './utils/later_stream'
 
 # utility functions
@@ -19,7 +20,7 @@ errorMaker = (error, response, body, expectedCode) ->
         return null
 
 # monkeypath
-FormData = require 'request-json-light/node_modules/form-data'
+FormData = require 'form-data'
 _old = FormData::pipe
 FormData::pipe = (request) ->
     length = request.getHeader 'Content-Length'
@@ -102,7 +103,7 @@ cozyIndexAdapter =
 
     search: (query, callback) ->
         docType = @getDocType()
-        data = query: query
+        data = if typeof query is 'string' then query: query else query
         client.post "data/search/#{docType}", data, (error, response, body) ->
             if error
                 callback error
@@ -110,7 +111,20 @@ cozyIndexAdapter =
                 callback new Error util.inspect body
             else
                 results = body.rows
+                results.totalHits = body.totalHits
+                results.facets = body.facets
+                results.hits = body.hits
                 callback null, results
+
+    registerIndexDefinition: (callback) ->
+        docType = @getDocType()
+        definitions = @fullTextIndex
+
+        unless definitions
+            setImmediate callback
+        else
+            url = "data/index/define/#{docType}"
+            client.post url, definitions, callback
 
     index: (id, fields, callback) ->
         cb = (error, response, body) ->
@@ -121,15 +135,36 @@ cozyIndexAdapter =
             else
                 callback null
 
-        client.post "data/index/#{id}", fields: fields, cb, false
+        client.post "data/index/#{id}", {fields}, cb, false
+
+
+# FormData and thus request-json-light accept only a few things for sending
+# files: strings (as a filenames) and some very specific streams (like those
+# of fs.createReadableStream). Sometimes, we have buffers to send and we use
+# a work-around to make them look like a stream from fs.createReadableStream.
+#
+# See https://github.com/form-data/form-data/pull/70
+fixForBuffer = (file) ->
+    if Buffer.isBuffer file
+        stream = simplebufferstream file
+        stream.fd = true
+        stream.start = 0
+        if process.version.match /^v0\.10\./
+            stream.end = Buffer.byteLength file.toString('utf8')
+        else
+            stream.end = Buffer.byteLength file
+        return stream
+    else
+        return file
 
 
 cozyFileAdapter =
 
-    attach: (id, path, data, callback) ->
+    attach: (id, file, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/attachments/"
-        client.sendFile urlPath, path, data, (error, response, body) ->
+        file = fixForBuffer file
+        client.sendFile urlPath, file, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
 
@@ -146,10 +181,11 @@ cozyFileAdapter =
 
 cozyBinaryAdapter =
 
-    attach: (id, path, data, callback) ->
+    attach: (id, file, data, callback) ->
         [data, callback] = [null, data] if typeof(data) is "function"
         urlPath = "data/#{id}/binaries/"
-        client.sendFile urlPath, path, data, (error, response, body) ->
+        file = fixForBuffer file
+        client.sendFile urlPath, file, data, (error, response, body) ->
             try body = JSON.parse(body)
             checkError error, response, body, 201, callback
 
@@ -170,8 +206,16 @@ cozyRequestsAdapter =
         docType = @getDocType()
         {map, reduce} = request
 
+        # transforms all functions in anonymous functions
+        # function named(a, b){...} --> function (a, b){...}
+        # function (a, b){...} --> function (a, b){...}
+        if reduce? and typeof reduce is 'function'
+            reduce = reduce.toString()
+            reduceArgsAndBody = reduce.slice reduce.indexOf '('
+            reduce = "function #{reduceArgsAndBody}"
+
         view =
-            reduce: reduce?.toString()
+            reduce: reduce
             map: """
                 function (doc) {
                   if (doc.docType.toLowerCase() === "#{docType}") {

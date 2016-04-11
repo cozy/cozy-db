@@ -2,6 +2,10 @@ log = require('printit')
     date: true
     prefix: 'Cozy DB'
 
+fs = require 'fs'
+path = require 'path'
+async = require 'async'
+
 # Public: the Model constructor
 module.exports.Model = Model = require './model'
 
@@ -19,8 +23,17 @@ emit = ->
 module.exports.defaultRequests = defaultRequests =
     all: (doc) -> emit doc._id, doc
     tags: (doc) -> emit(tag, doc) for tag in doc.tags or []
-    by: (field) ->
-        ((doc) -> emit doc.FIELD, doc).toString().replace 'FIELD', field
+    by: (fields...) ->
+        if fields.length is 0
+            throw new Error('There should be at least one parameter')
+        if fields.length is 1
+            key = "doc.#{fields}"
+        else
+            key = fields.map (field) -> "doc.#{field}"
+                        .join(', ')
+            key = "[#{key}]"
+
+        ((doc) -> emit KEY, doc).toString().replace 'KEY', key
 
 
 module.exports.getModel = (name, schema) ->
@@ -52,15 +65,27 @@ maybeSetupPouch = (options) ->
             options.dbName ?= process.env.POUCHDB_NAME or 'cozy'
             PouchModel.db = new Pouch options.dbName
 
-getRequests = (root) ->
-    modelPath = "#{root}/server/models/"
+getRequests = (modelsPath) ->
+    requestFile = path.join(modelsPath, "requests")
     # get the requests file
-    requests = require modelPath + "requests"
+    try requests = require requestFile
+    catch err
+        console.log "Could not load #{requestFile}"
+        requests = {}
+
+    requestsToSave = []
+    models = []
+
+    # get all indexes defined in models into an array
+    for file in fs.readdirSync(modelsPath)
+        try
+            model = require path.join(modelsPath, file)
+            if model?.prototype instanceof CozyModel
+                models.push model
 
     # get all requests from the request file into an array
-    requestsToSave = []
     for docType, requestDefinitions of requests
-        model = require modelPath + docType
+        model = require path.join(modelsPath, docType)
 
         for requestName, requestDefinition of requestDefinitions
             requestsToSave.push {model, requestName, requestDefinition}
@@ -78,24 +103,31 @@ getRequests = (root) ->
         requestName: 'all'
         requestDefinition: defaultRequests.all
 
-    return requestsToSave
+    return {models, requestsToSave}
 
-defineRequests = (requestsToSave, callback, i = 0) ->
-    {model, requestName, requestDefinition, optional} = requestsToSave[i]
-    log.info "#{model.getDocType()} - #{requestName} request creation..."
-    model.defineRequest requestName, requestDefinition, (err) ->
-        if err and not optional
-            log.raw err
-            log.error "A request creation failed, abandon."
-            callback err
+defineRequests = (requestsToSave, callback) ->
+    async.eachSeries requestsToSave, (request, next) ->
+        {model, requestName, requestDefinition, optional} = request
+        log.info "#{model.getDocType()} - #{requestName} request creation..."
+        model.defineRequest requestName, requestDefinition, (err) ->
+            if err and not optional
+                log.raw err
+                log.error """
+                    A request creation failed, abandon. Are you sure the DS is
+                    started ?
+                """
+                next err
+            else
+                log.info "succeeded"
+                next null
 
-        else if i + 1 >= requestsToSave.length
-            log.info "requests creation completed"
-            callback null
+    , callback
 
-        else
-            log.info "succeeded"
-            defineRequests requestsToSave, callback, i + 1
+defineIndexes = (models, callback) ->
+    async.eachSeries models, (model, next) ->
+        log.info "#{model.getDocType()} - define indexes..."
+        model.registerIndexDefinition next
+    , callback
 
 requestsIndexingProgress = 0
 requestsIndexingTotal = 1
@@ -139,8 +171,20 @@ forceIndexRequests = (requestsToSave, callback, i = 0) ->
 # them all in the Cozy Data System.
 module.exports.configure = (options, app, callback) ->
     callback ?= ->
+    defaultRoot = process.cwd()
+    defaultModelsPaths = "server/models/"
     if typeof options is 'string'
-        options = root: options
+        options =
+            root: options
+            modelsPath: "#{options}/#{defaultModelsPaths}"
+    else if typeof options is 'object'
+        options.root ?= defaultRoot
+        options.modelsPath ?= "#{options.root}/#{defaultModelsPaths}"
+    else
+        options =
+            root: defaultRoot
+            modelsPath: "#{defaultRoot}/#{defaultModelsPaths}"
+
 
     try maybeSetupPouch(options)
     catch err
@@ -150,7 +194,7 @@ module.exports.configure = (options, app, callback) ->
 
     api.setupModels()
 
-    try requestsToSave = getRequests options.root
+    try {requestsToSave, models} = getRequests options.modelsPath
     catch err
         log.raw err.stack
         log.error "Failed to load requests file."
@@ -159,8 +203,10 @@ module.exports.configure = (options, app, callback) ->
     defineRequests requestsToSave, (err) ->
         return callback err if err
 
-        # in the background
-        reindex = forceIndexRequests.bind null, requestsToSave
-        module.exports.forceReindexing = reindex
+        defineIndexes models, (err) ->
+            return callback err if err
 
-        callback null
+            reindex = forceIndexRequests.bind null, requestsToSave
+            module.exports.forceReindexing = reindex
+
+            callback null

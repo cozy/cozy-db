@@ -80,7 +80,7 @@ class Controller
     listAll: (req, res, next) =>
         @model.all (err, items) ->
             return next err if err
-            res.send 200, items
+            res.status(200).send items
 
 
     # Public: Express controller to send the @reqProp model
@@ -88,7 +88,7 @@ class Controller
     #
     # Returns null
     send: (req, res, next) =>
-        res.send 200, req[@reqProp]
+        res.status(200).send req[@reqProp]
 
 
     # Public: express controller to update the @reqParamID model with request
@@ -104,7 +104,7 @@ class Controller
         changes = req.body
         @model.updateAttributes id, req.body, (err, updated) ->
             return next err if err
-            res.send 200, updated
+            res.status(200).send updated
             next()
 
 
@@ -120,7 +120,7 @@ class Controller
         id = req.params[@reqParamID]
         @model.destroy id, (err) ->
             return next err if err
-            res.send 204, 'Deleted'
+            res.status(204).send 'Deleted'
             next()
 
 
@@ -163,13 +163,14 @@ class Controller
     #  app.get 'contact/:contactid.jpg',
     sendAttachment: (options = {}) =>
         return handler = (req, res, next) =>
-            name = getFileName options
-            id = req.params[@reqParamID]
-            stream = @model.getFile id, name, (err) -> next err if err
-            stream.pipefilter = copySafeHeaders
-            req.on 'close', -> stream.abort()
-            res.on 'close', -> stream.abort()
-            stream.pipe res
+            if res.connection and not res.connection.destroyed
+                name = getFileName options
+                id = req.params[@reqParamID]
+                stream = @model.getFile id, name, (err) -> next err if err
+                stream.pipefilter = copySafeHeaders
+                req.on 'close', -> stream.abort()
+                res.on 'close', -> stream.abort()
+                stream.pipe res
 
 
     # Public: Express controller to send a file as response.
@@ -184,13 +185,14 @@ class Controller
     #  app.get 'contact/:contactid.jpg',
     sendBinary: (options = {})->
         return handler = (req, res, next) =>
-            name = getFileName options
-            id = req.params[@reqParamID]
-            stream = @model.getBinary id, name, (err) -> next err if err
-            stream.pipefilter = copySafeHeaders
-            req.on 'close', -> stream.abort()
-            res.on 'close', -> stream.abort()
-            stream.pipe res
+            if res.connection and not res.connection.destroyed
+                name = getFileName options
+                id = req.params[@reqParamID]
+                stream = @model.getBinary id, name, (err) -> next err if err
+                stream.pipefilter = copySafeHeaders
+                req.on 'close', -> stream.abort()
+                res.on 'close', -> stream.abort()
+                stream.pipe res
 
 
 module.exports = Controller

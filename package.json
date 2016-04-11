@@ -1,6 +1,6 @@
 {
   "name": "cozydb",
-  "version": "0.1.1",
+  "version": "0.1.10",
   "description": "Cozy Data System Driver",
   "main": "lib/index.js",
   "directories": {
@@ -37,9 +37,12 @@
     "should": "8.3.0"
   },
   "dependencies": {
+    "async": "1.5.1",
+    "form-data": "0.2.0",
     "mkdirp": "0.5.1",
     "node-uuid": "1.4.7",
-    "printit": "0.1.19",
-    "request-json-light": "0.5.22"
+    "printit": "0.1.18",
+    "request-json-light": "0.5.22",
+    "simple-bufferstream": "1.0.0"
   }
 }

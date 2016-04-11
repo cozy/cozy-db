@@ -109,6 +109,9 @@ pouchdbIndexAdapter =
     index: (id, fields, callback) ->
         callback null
 
+    registerIndexDefinition: (callback) ->
+        callback null
+
 
 pouchdbFileAdapter =
 

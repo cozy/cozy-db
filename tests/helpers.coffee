@@ -28,11 +28,11 @@ exports.deleteDoc = (id, callback) ->
 
 exports.clearDocType = (doctype) -> (callback) ->
     klass = CozyAdapter.getModel doctype, CozyAdapter.NoSchema
-    klass.defineRequest 'all', CozyAdapter.defaultRequests.all, (err) ->
+    klass.defineRequest 'all-clear', CozyAdapter.defaultRequests.all, (err) ->
         return callback err if err
-        klass.requestDestroy 'all', (err) ->
+        klass.requestDestroy 'all-clear', (err) ->
             return callback err if err
-            klass.removeRequest 'all', callback
+            klass.removeRequest 'all-clear', callback
 
 exports.createDocWithID = (data, id, callback) ->
     id = '' + id
