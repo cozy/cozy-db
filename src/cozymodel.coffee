@@ -294,3 +294,4 @@ module.exports = class CozyBackedModel extends Model
 
     convertBinary: (cb) ->
         @constructor.convertBinary.call @constructor, @id, cb
+

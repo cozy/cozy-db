@@ -498,3 +498,4 @@ class Model
 
 module.exports = Model
 {castObject} = require './utils/type_checking'
+

@@ -1,6 +1,10 @@
 log = require('printit')
     prefix: 'Cozy DB'
+{WrongSchemaError} = require './errors'
 
+
+# Set of functions to manage efficiently types of model fields types of model
+# fields.
 _toString = (x) -> Object.prototype.toString.call x
 _isArray = Array.isArray or (x) -> '[object Array]' is _toString x
 _isMap = (x) -> '[object Object]' is _toString x
@@ -9,10 +13,16 @@ _default = (value, defaultValue, lastDefault) ->
     else if defaultValue isnt undefined then defaultValue
     else lastDefault
 
-{WrongShemaError} = require './errors'
+
+reportCastIgnore = process.env.NODE_ENV not in ['production', 'test'] or
+                   process.env.NO_CAST_WARNING
 
 exports.NoSchema = NoSchema = {symbol: 'NoSchema'}
 
+
+# Turn given value type to the one given in parameter. If a default value
+# is set and value is null, the value becomes the default value.
+# This function is useful to force types of model fields value.
 exports.castValue = castValue = (value, typeOrOptions) ->
 
     # each prop can either be just the type (msg: String)
@@ -20,10 +30,10 @@ exports.castValue = castValue = (value, typeOrOptions) ->
     if typeOrOptions.type
         {type} = typeOrOptions
         defaultValue = typeOrOptions['default']
+
     else
         type = typeOrOptions
         defaultValue = undefined
-
 
     if value is undefined or value is null
         if _isArray type then return []
@@ -84,10 +94,8 @@ exports.castValue = castValue = (value, typeOrOptions) ->
     return out
 
 
-
-reportCastIgnore = process.env.NODE_ENV not in ['production', 'test'] or
-                   process.env.NO_CAST_WARNING
-
+# Cast all object fields to the one given by schema.
+# This one ensure that object fields are properly typed before being saved.
 exports.castObject = castObject = (raw, schema, target = {}, name) ->
 
     handled = []
@@ -109,3 +117,4 @@ exports.castObject = castObject = (raw, schema, target = {}, name) ->
 
 # import late because circular dependency
 Model = require '../model'
+

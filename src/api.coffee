@@ -14,6 +14,7 @@ module.exports.setupModels = setupModels = ->
 
 setupModels()
 
+
 # Public: kitchen sink class for various convenience methods
 #
 # Examples
@@ -21,8 +22,8 @@ setupModels()
 class Api
 
 
-    # Public: get the CozyInstance object
-    # Warning : Your app need to ask the CozyInstance permission
+    # Public: Retrieve the CozyInstance object
+    # Warning: Your app need to ask the CozyInstance permission
     #
     # callback - {Function}({Error} err, {CozyInstance} instance)
     #
@@ -30,8 +31,9 @@ class Api
     getCozyInstance: (callback) ->
         CozyInstance.first callback
 
-    # Public: get the CozyUser object
-    # Warning : Your app need to ask the User permission
+
+    # Public: Retrieve the CozyUser object
+    # Warning: Your app need to ask the User permission
     #
     # callback - {Function}({Error} err, {CozyUser} instance)
     #
@@ -39,8 +41,9 @@ class Api
     getCozyUser: (callback) ->
         CozyUser.first callback
 
-    # Public: get the Cozy domain
-    # Warning : Your app need to ask the CozyInstance permission
+
+    # Public: Retrieve the Cozy domain set at the instance level.
+    # Warning: Your app need to ask the CozyInstance permission
     # domain is normalized with https and trailing /
     #
     # callback - {Function}({Error} err, {String} domain)
@@ -55,8 +58,9 @@ class Api
             if url then callback null, "https://#{url}/"
             else callback new Error 'No instance domain set'
 
-    # Public: get the Cozy locale
-    # Warning : Your app need to ask the CozyInstance permission
+
+    # Public: Retrieve the locale set at the instance level.
+    # Warning: Your app need to ask the CozyInstance permission
     #
     # callback - {Function}({Error} err, {String} locale)
     #
@@ -65,8 +69,9 @@ class Api
         api.getCozyInstance (err, instance) ->
             callback err, instance?.locale or 'en'
 
-    # Public: get the Cozy timezone
-    # Warning : Your app need to ask the User permission
+
+    # Public: Retrieve the timezone set at the user level.
+    # Warning: Your app need to ask the User permission
     #
     # callback - {Function}({Error} err, {String} timezone)
     #
@@ -79,8 +84,9 @@ class Api
             if tz then callback null, tz
             else callback new Error 'No user set'
 
-    # Public: get the Cozy owner's email
-    # Warning : Your app need to ask the User permission
+
+    # Public: Retrieve the Cozy owner's email.
+    # Warning: Your app need to ask the User permission
     #
     # callback - {Function}({Error} err, {String} email)
     #
@@ -93,7 +99,8 @@ class Api
             if email then callback null, email
             else callback new Error 'No user set'
 
-    # Public: get all existing tags in the cozy
+
+    # Public: Retrieve all existing tags in the cozy.
     #
     # callback - {Function}({Error} err, [{String}] tags)
     #
@@ -103,7 +110,7 @@ class Api
             callback err, body
 
 
-    # Public: send an email
+    # Public: Send an email
     # Warning : Your app need to ask the "send mail" permission
     #
     # data - {Object}
@@ -140,8 +147,9 @@ class Api
             else
                 callback()
 
-    # Public: send an email to the cozy owner
-    # Warning : Your app need to ask the "send mail to user" permission
+
+    # Public: Send an email to the cozy owner.
+    # Warning: Your app need to ask the "send mail to user" permission
     #
     # data - {Object}
     #   :to
@@ -165,7 +173,8 @@ class Api
             else
                 callback()
 
-    # Public: send an email from the cozy owner
+
+    # Public: Send an email from the cozy owner.
     # Warning : Your app need to ask the "send mail from user" permission
     #
     # data - {Object}
@@ -191,8 +200,8 @@ class Api
                 callback()
 
 
-
 module.exports = api = new Api()
 module.exports.setupModels = setupModels
 module.exports.CozyInstance = CozyInstance
 module.exports.CozyUser = CozyUser
+
