@@ -236,7 +236,7 @@ class Api
     # Returns null
     revokeSharingFromSharer: (id, callback) ->
         path = "services/sharing/sharer/#{id}/"
-        client.post path, {}, (err, res, body) ->
+        client.delete path, {}, (err, res, body) ->
             callback err, body
 
 
@@ -249,7 +249,7 @@ class Api
     # Returns null
     revokeSharingTargetFromSharer: (id, target, callback) ->
         path = "services/sharing/sharer/#{id}/#{target}/"
-        client.post path, {}, (err, res, body) ->
+        client.delete path, {}, (err, res, body) ->
             callback err, body
 
 
@@ -261,7 +261,7 @@ class Api
     # Returns null
     revokeSharingFromRecipient: (id, callback) ->
         path = "services/sharing/target/#{id}/"
-        client.post path, {}, (err, res, body) ->
+        client.delete path, {}, (err, res, body) ->
             callback err, body
 
 
