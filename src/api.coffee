@@ -201,14 +201,14 @@ class Api
 
 
     # Public: Create a Sharing and send request to all the targets
-    # Warning : Your app need to ask the 'Sharing' permission
+    # Warning : Your app need to ask the 'Sharing' permission
     # data - {Object}
     #   :rules - [rule], composed of id and docType fields
     #   :targets - [target], composed of recipientUrl fields
     #   :continuous - {boolean}, sync sharing
     #   :desc - {String}, human-readable description
     # callback - {Function}({Error} err)
-    # 
+    #
     # Returns null
     createSharing: (data, callback) ->
         client.post "services/sharing/", data, (err, res, body) ->
@@ -216,12 +216,12 @@ class Api
 
 
     # Public: Answer a Sharing request
-    # Warning : Your app need to ask the 'Sharing' permission
+    # Warning : Your app need to ask the 'Sharing' permission
     # data - {Object}
     #   :id - {String}, id of the recipient's Sharing document
     #   :accepted - {boolean}
     # callback - {Function}({Error} err)
-    # 
+    #
     # Returns null
     answerSharing: (data, callback) ->
         client.post "services/sharing/sendAnswer", data, (err, res, body) ->
@@ -229,39 +229,39 @@ class Api
 
 
     # Public: Revoke a Sharing from the sharer side
-    # Warning : Your app need to ask the 'Sharing' permission
+    # Warning : Your app need to ask the 'Sharing' permission
     # id - {String}, id of the sharer's Sharing document, also called shareID
     # callback - {Function}({Error} err)
-    # 
+    #
     # Returns null
     revokeSharingFromSharer: (id, callback) ->
-        path = "services/sharing/sharer/#{id}"
-        client.post path, {}, (err, res, body) ->
+        path = "services/sharing/sharer/#{id}/"
+        client.delete path, {}, (err, res, body) ->
             callback err, body
 
 
     # Public: Revoke a target from the sharer side
-    # Warning : Your app need to ask the 'Sharing' permission
+    # Warning : Your app need to ask the 'Sharing' permission
     # id - {String}, id of the sharer's Sharing document, also called shareID
     # target - {String}, url of the target
     # callback - {Function}({Error} err)
-    # 
+    #
     # Returns null
     revokeSharingTargetFromSharer: (id, target, callback) ->
         path = "services/sharing/sharer/#{id}/#{target}/"
-        client.post path, {}, (err, res, body) ->
+        client.delete path, {}, (err, res, body) ->
             callback err, body
 
 
     # Public: Revoke a Sharing from the recipient side
-    # Warning : Your app need to ask the 'Sharing' permission
+    # Warning : Your app need to ask the 'Sharing' permission
     # id - {String}, id of the recipient's Sharing document
     # callback - {Function}({Error} err)
-    # 
+    #
     # Returns null
     revokeSharingFromRecipient: (id, callback) ->
-        path = "services/sharing/target/#{id}"
-        client.post path, {}, (err, res, body) ->
+        path = "services/sharing/target/#{id}/"
+        client.delete path, {}, (err, res, body) ->
             callback err, body
 
 
