@@ -336,7 +336,12 @@ class Model
     #
     # Returns {Object} target
     @cast: (attributes, target = {}) ->
-        castObject attributes, @schema, target, @name
+        if @name isnt 'ClassFromGetModel'
+            displayName = @name
+        else
+            displayName = @displayName
+
+        castObject attributes, @schema, target, displayName
 
 
     @destroyAll: (params, callback) ->
